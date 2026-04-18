@@ -1,0 +1,694 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import CheckoutButton from "./CheckoutButton";
+import CountdownBar from "./CountdownBar";
+import FaqAccordion from "./FaqAccordion";
+
+export const metadata: Metadata = {
+  title: "Sumi-e: Learn The 700-Year Old Japanese Art Of Ink Painting",
+  description:
+    "Learn the ancient Japanese art of sumi-e ink painting at home with no experience. Create beautiful ink paintings on rice paper in under 2 hours.",
+};
+
+export default function Home() {
+  return (
+    <main className="overflow-hidden">
+      <CountdownBar />
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        :root {
+          --bg: #ffffff;
+          --bg-warm: #f8f6f3;
+          --card: #ffffff;
+          --ink: #1a1f3d;
+          --ink-soft: rgb(26, 31, 61);
+          --ink-muted: #6b7089;
+          --indigo: #2d4a8f;
+          --indigo-deep: #1a2d6b;
+          --indigo-soft: #4a6db5;
+          --indigo-pale: rgba(45,74,143,0.06);
+          --gold: #c7915b;
+          --gold-light: #d4a574;
+          --gold-pale: rgba(199,145,91,0.08);
+          --terra: #5a6b9f;
+          --sand: #c8c0b4;
+          --stone: #a8a098;
+          --cream: #faf8f5;
+          --radius: 10px;
+          --accent: #2d4a8f;
+        }
+
+        /* BASE TYPOGRAPHY */
+        .bonsai-page { font-family: 'Lora', 'Lora Fallback', serif; color: rgb(26, 31, 61); line-height: 1.8; font-weight: 400; font-size: 20px; }
+        .bonsai-page .container { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+
+        /* Headings */
+        .bonsai-page h1, .bonsai-page h2, .bonsai-page h3 { font-family: 'Lora', serif; color: var(--ink); line-height: 1.25; }
+        .bonsai-page h1 { font-size: clamp(2.4rem, 6vw, 3.6rem); font-weight: 600; letter-spacing: -0.5px; text-align: center; margin-bottom: 20px; }
+        .bonsai-page h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 500; margin-bottom: 24px; }
+        .bonsai-page h3 { font-size: 30px; font-weight: 600; color: var(--indigo-deep); margin-bottom: 8px; }
+
+        /* Body text */
+        .bonsai-page p { margin-bottom: 24px; }
+        .bonsai-page strong { color: var(--ink); font-weight: 600; }
+        .bonsai-page em { font-style: italic; }
+        .bonsai-page a { color: var(--indigo); text-decoration: none; }
+
+        /* Utilities */
+        .bonsai-divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--sand), transparent); margin: 20px 0; }
+        .sm-divider { width: 36px; height: 2px; background: var(--gold); margin: 0 auto; opacity: 0.5; }
+        .bonsai-center { text-align: center; }
+
+        /* Badge */
+        .badge { display: inline-block; padding: 6px 16px; border: 1.5px solid var(--indigo); border-radius: 100px; font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--indigo); margin-bottom: 20px; }
+        .no-exp { font-size: 16px; letter-spacing: 2.5px; margin-bottom: 20px; }
+        .hero-sub { font-size: clamp(1.1rem, 2.5vw, 1.5rem); }
+        .course-intro { padding: 80px 0 0; }
+
+        /* Hero */
+        .hero-img { width: 100%; max-width: 860px; margin: 0 auto; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; background: var(--bg-warm); border: 1px solid var(--sand); display: flex; align-items: center; justify-content: center; }
+        .hero h1 .accent { color: var(--indigo-deep); font-style: italic; }
+
+        /* Philosophy blocks */
+        .phil-block { margin-bottom: 32px; padding: 28px 32px; background: var(--card); border-radius: 12px; border: 1px solid var(--sand); }
+        .phil-kanji { font-size: 32px; color: var(--gold); margin-bottom: 6px; }
+        .phil-title { font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .phil-rom { font-size: 15px; color: var(--ink-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; font-weight: 600; }
+        .phil-block p { margin-bottom: 0; }
+
+        /* Transform quote */
+        .transform { padding: 48px 0; text-align: center; }
+        .transform-line { font-size: clamp(1rem, 2.2vw, 1.3rem); color: var(--ink); font-weight: 400; font-style: italic; max-width: 560px; margin: 0 auto; line-height: 1.5; }
+
+        /* Instructor */
+        .instructor { padding: 56px 0; display: flex; gap: 32px; align-items: flex-start; }
+        .instructor-img { width: 420px; min-width: 420px; border-radius: var(--radius); flex-shrink: 0; overflow: hidden; }
+
+        /* Students */
+        .students { padding: 48px 0; text-align: center; }
+
+        /* Objections */
+        .objection { padding: 56px 0; }
+
+        /* Module cards */
+        .modules-grid { display: flex; flex-direction: column; gap: 16px; }
+        .module-card { background: var(--card); border-radius: 12px; padding: 28px; margin-bottom: 16px; border: 1px solid var(--sand); }
+        .module-label { font-size: 12px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+        .module-sub { font-size: 18px; color: var(--ink); margin-bottom: 14px; }
+        .module-body { display: flex; gap: 28px; align-items: flex-start; }
+        .module-card ul { list-style: none; padding: 0; flex: 1; }
+        .module-card li { padding: 6px 0; font-size: 18px; line-height: 1.6; }
+        .module-img { width: 280px; min-width: 280px; height: 260px; border-radius: 8px; background: linear-gradient(135deg, var(--bg-warm), var(--sand)); display: flex; align-items: center; justify-content: center; font-size: 28px; border: 1px solid var(--sand); overflow: hidden; position: relative; }
+
+        .hereswhatyouget-mobile { display: none; }
+        .hero-text-mobile { display: none; }
+
+        /* CTA */
+        .cta-block { text-align: center; padding: 56px 0; }
+        .price-old { font-size: 34px; color: var(--ink-muted); text-decoration: line-through; margin-bottom: 4px; }
+        .price { font-size: 56px; color: var(--indigo-deep); margin-bottom: 4px; font-weight: 700; }
+        .price-note { font-size: 20px; color: var(--ink-muted); margin-bottom: 24px; font-weight: 400; }
+        .lifetime-break { display: none; }
+        .guarantee-badge { display: flex; align-items: center; gap: 10px; justify-content: center; margin-top: 20px; font-size: 15px; color: var(--ink-muted); }
+        .guarantee-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--cream); border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+        .payment-icons { display: flex; gap: 6px; justify-content: center; margin-top: 14px; opacity: 0.4; }
+        .payment-icons span { font-size: 12px; padding: 4px 10px; border: 1px solid var(--stone); border-radius: 3px; color: var(--ink-muted); font-weight: 500; }
+        .ps-note { margin-top: 16px; font-size: 18px; color: var(--ink-muted); font-style: italic; }
+
+        /* Guarantee section */
+        .guarantee-section { padding: 48px 0; text-align: center; }
+        .guarantee-section p { max-width: 640px; margin: 0 auto 16px; font-size: 20px; }
+
+        /* Bonus cards */
+        .bonus-card { background: var(--card); border-radius: 12px; padding: 28px; margin-bottom: 16px; border: 1px solid var(--sand); }
+        .bonus-body { display: flex; gap: 28px; align-items: flex-start; }
+        .bonus-img { width: 280px; min-width: 280px; height: 260px; border-radius: 8px; background: linear-gradient(135deg, var(--bg-warm), var(--sand)); display: flex; align-items: center; justify-content: center; font-size: 28px; border: 1px solid var(--sand); overflow: hidden; position: relative; }
+        .bonus-card ul { flex: 1; }
+        .bonus-header { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+        .bonus-label { font-size: 12px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent); }
+        .bonus-value { font-size: 12px; color: var(--indigo); font-weight: 700; background: rgba(45,74,143,0.1); padding: 2px 10px; border-radius: 100px; letter-spacing: 0.5px; }
+        .bonus-card h3 { font-size: 30px; color: var(--ink); margin-bottom: 4px; }
+        .module-card h3 { color: var(--ink); }
+        .bonus-desc { font-size: 18px; color: var(--ink-muted); margin-bottom: 14px; }
+        .bonus-card ul { list-style: none; padding: 0; }
+        .bonus-card li { padding: 6px 0; font-size: 18px; line-height: 1.6; }
+        .mega { border-color: rgba(45,74,143,0.3); background: linear-gradient(135deg, var(--card), var(--gold-pale)); }
+
+        /* Stack */
+        .stack-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); max-width: 520px; margin-left: auto; margin-right: auto; }
+        .stack-row .label { color: var(--ink-soft); }
+        .stack-row .val { color: var(--indigo-deep); font-weight: 800; font-size: 17px; }
+        .stack-total { font-weight: 700; border-bottom: 2px solid var(--indigo); padding-bottom: 10px; margin-bottom: 6px; }
+        .stack-total .label { color: var(--ink); }
+
+        /* FAQ */
+        .faq-list { display: flex; flex-direction: column; gap: 12px; }
+        .faq-item { background: var(--cream); border-radius: 12px; padding: 4px 20px; border: 1px solid var(--sand); }
+        .faq-q { width: 100%; display: flex; align-items: center; gap: 14px; padding: 18px 0; background: none; border: none; cursor: pointer; text-align: left; font-family: 'Lora', serif; font-size: 18px; }
+        .faq-badge { width: 28px; height: 28px; border-radius: 50%; background: var(--indigo-pale); color: var(--indigo); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .faq-q-text { flex: 1; font-weight: 700; color: var(--ink); }
+        .faq-icon { color: var(--indigo); font-size: 20px; transition: transform 0.2s; flex-shrink: 0; }
+        .faq-icon.open { transform: rotate(45deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; }
+        .faq-answer.open { max-height: 400px; padding-bottom: 18px; }
+        .faq-answer-inner { padding-left: 42px; }
+        .faq-a { color: var(--ink-muted); line-height: 1.75; margin: 0; }
+
+        /* Closing */
+        .closing { padding: 56px 0; text-align: center; }
+        .closing-quote { font-size: clamp(1.3rem, 2.5vw, 1.8rem); color: var(--ink); font-style: italic; max-width: 520px; margin: 0 auto 28px; line-height: 1.5; }
+
+        /* Footer */
+        .bonsai-footer { padding: 44px 0; text-align: center; font-size: 14px; color: #999; background: #0a0e1a; margin-top: 48px; }
+        .bonsai-footer a { color: #4a6db5; }
+        .bonsai-footer p { color: #999; }
+
+        /* Split layout */
+        .split { display: flex; gap: 40px; align-items: center; padding: 56px 0; }
+        .split-text { flex: 1; }
+        .split-text h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); }
+        .split-img { flex: 1 1 50%; height: 380px; border-radius: 12px; background: transparent; border: none; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+
+        @media (max-width: 768px) {
+          .fillpic-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .bonsai-page .container { padding: 0 24px; }
+          .bonsai-page section { padding-left: 0; padding-right: 0; }
+          .split { flex-direction: column; gap: 24px; }
+          .split-img { flex: none; width: 100%; height: auto; }
+          .split-text { flex: 1 !important; }
+          .module-body { flex-direction: column; }
+          .module-img { width: 100%; min-width: unset; height: auto; aspect-ratio: 1/1; }
+          .bonus-body { flex-direction: column; }
+          .bonus-img { width: 100%; min-width: unset; height: auto; aspect-ratio: 1/1; }
+          .module-card, .bonus-card { padding: 20px; }
+          .instructor { flex-direction: column; align-items: center; }
+          .instructor-text { text-align: left; }
+          .course-intro { padding-top: 20px !important; }
+          .hero-divider { display: none !important; }
+          .price-old { font-size: 28px !important; }
+          .checkout-box { padding: 24px 16px !important; padding-bottom: 16px !important; }
+          .cta-btn { font-size: 1.3rem !important; }
+          .ps-note { font-size: 16px !important; margin-bottom: 0 !important; }
+          .instructor-img { width: 100% !important; max-width: 400px !important; height: auto !important; padding: 0 24px; border-radius: 16px; }
+          .phil-block { padding: 20px; }
+          .stack-row { max-width: 100%; }
+          .closing-quote { font-size: 1.2rem; }
+          .bonus-header { flex-wrap: wrap; }
+          .no-exp { font-size: 14px !important; letter-spacing: 1.5px !important; margin-bottom: 12px !important; }
+          .hero-sub { font-size: 18px !important; }
+          .hero-split { padding-top: 12px !important; }
+        }
+        @media (max-width: 480px) {
+          .lifetime-break { display: block; }
+          .bonsai-page .container { padding: 0 24px; }
+          .bonsai-page { font-size: 20px; }
+          .bonsai-page p:not(.now-only):not(.no-exp):not(.hero-sub):not(.guarantee-text):not(.ps-note), .bonsai-page li { font-size: 20px !important; }
+          .hero-sub { font-size: 18px !important; }
+          .module-img, .bonus-img { height: auto; aspect-ratio: 1/1; }
+          .hereswhatyouget-desktop { display: none !important; }
+          .hereswhatyouget-mobile { display: block !important; }
+          .hero-text-desktop { display: none !important; }
+          .hero-text-mobile { display: block !important; }
+          .no-exp { font-size: 14px !important; letter-spacing: 1.5px !important; margin-bottom: 12px !important; }
+          .bonus-card h3, .module-card h3 { margin-bottom: 14px !important; }
+          .bonus-desc, .module-sub { margin-bottom: 22px !important; }
+          .badge { font-size: 10px; letter-spacing: 1.5px; padding: 5px 12px; }
+          .payment-method-btn { font-size: 13px; padding: 10px 12px; }
+          #hero { width: 100% !important; margin-top: 16px; }
+          .below-hero-row { width: 100% !important; }
+          .anyone-section { padding-top: 0px !important; }
+          .store-bought-section { padding-bottom: 40px !important; }
+          .impossible-section { padding-top: 24px !important; }
+          .stunning-section { padding-top: 16px !important; margin-top: 0 !important; }
+          .whats-inside { font-size: 32px !important; }
+          .module-card h3, .bonus-card h3 { font-size: 24px !important; }
+          .now-only { font-size: 36px !important; }
+          .price-old { font-size: 28px !important; }
+          .cta-btn { font-size: 1.3rem !important; }
+          .faq-q-text { font-weight: 500 !important; font-size: 18px !important; }
+          .faq-q { font-size: 18px !important; }
+          .stack-row { padding: 6px 0 !important; font-size: 18px; }
+          .stack-row .val { font-size: 18px !important; }
+          .checkout-box { padding: 24px 20px !important; }
+        }
+      `}} />
+
+      <div className="bonsai-page">
+        <div className="container">
+
+          {/* HERO */}
+          <section style={{ paddingTop: 64, paddingBottom: 48, textAlign: 'center' }}>
+            <p className="no-exp" style={{ fontWeight: 700, textTransform: 'uppercase', color: 'var(--ink-muted)' }}>For The First Time Online</p>
+            <h1><span style={{ background: 'linear-gradient(135deg, #2d4a8f, #4a6db5)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 4px rgba(45,74,143,0.2))' }}>Sumi-e:</span> Learn The 700-Year Old Japanese Art Of Ink Painting</h1>
+            <p className="hero-sub" style={{ color: 'var(--ink-muted)', marginTop: 8, fontStyle: 'italic' }}>Your first masterpiece in 3 hours even if you&apos;re a complete beginner.</p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 28, gap: 12 }}>
+              <div id="hero" style={{ width: '90%', maxWidth: 640, aspectRatio: '1/1', borderRadius: 16, overflow: 'hidden', position: 'relative', boxShadow: '0 12px 40px rgba(26,45,107,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
+                <Image src="/hero.png" alt="Sumi-e Masterclass" fill style={{ objectFit: 'cover' }} />
+              </div>
+              <div className="below-hero-row" style={{ display: 'flex', gap: 12, width: '90%', maxWidth: 640 }}>
+                <div style={{ flex: 1, aspectRatio: '1/1', borderRadius: 12, overflow: 'hidden', position: 'relative', boxShadow: '0 6px 20px rgba(26,45,107,0.2)' }}>
+                  <Image src="/below_hero1.png" alt="Sumi-e example" fill style={{ objectFit: 'cover' }} />
+                </div>
+                <div style={{ flex: 1, aspectRatio: '1/1', borderRadius: 12, overflow: 'hidden', position: 'relative', boxShadow: '0 6px 20px rgba(26,45,107,0.2)' }}>
+                  <Image src="/below_hero2.png" alt="Sumi-e example" fill style={{ objectFit: 'cover' }} />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* IMAGINE IF YOU COULD */}
+          <section style={{ padding: '24px 0 56px' }}>
+            <div style={{ maxWidth: 672, margin: '0 auto' }}>
+              <h2 style={{ fontSize: 'clamp(1.875rem, 4vw, 2.25rem)', fontWeight: 500, marginBottom: 16 }}>
+                Imagine if you could:
+              </h2>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontSize: 'clamp(1.125rem, 2vw, 1.25rem)', lineHeight: 1.75 }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+                  <span style={{ color: 'var(--accent)', marginTop: 4, flexShrink: 0 }}>&#8594;</span>
+                  <p style={{ margin: 0 }}>
+                    <strong style={{ color: 'var(--accent)' }}>create one-of-a-kind ink paintings using an ancient Japanese technique</strong> that produces pieces so beautiful they look like they belong in a gallery.
+                  </p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+                  <span style={{ color: 'var(--accent)', marginTop: 4, flexShrink: 0 }}>&#8594;</span>
+                  <p style={{ margin: 0 }}>
+                    <strong style={{ color: 'var(--accent)' }}>transform blank rice paper into timeless ink art</strong> that you can frame, hang on your wall, or gift to someone you love.
+                  </p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+                  <span style={{ color: 'var(--accent)', marginTop: 4, flexShrink: 0 }}>&#8594;</span>
+                  <p style={{ margin: 0 }}>
+                    <strong style={{ color: 'var(--accent)' }}>have a calming, meditative creative hobby</strong> that takes you offline and into a world of brushstrokes, ink, and quiet focus.
+                  </p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+                  <span style={{ color: 'var(--accent)', marginTop: 4, flexShrink: 0 }}>&#8594;</span>
+                  <p style={{ margin: 0 }}>
+                    <strong style={{ color: 'var(--accent)' }}>make handmade pieces that cost under $5 in materials</strong> but look like they came from a Japanese artisan shop.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* THE MOMENT IT CLICKS */}
+          <section className="impossible-section" style={{ padding: '64px 0 24px' }}>
+            <h2 className="bonsai-center" style={{ marginBottom: 44 }}>You might be thinking this is extremely hard.</h2>
+            <p>A 700-year-old Japanese ink painting tradition? It sounds like something <strong>only trained artists or calligraphers can pull off.</strong></p>
+            <p>But what if I told you that <strong>you don&apos;t need artistic talent, expensive equipment, or any prior experience?</strong></p>
+          </section>
+
+          <section style={{ padding: '48px 0 32px' }}>
+            <h2 className="bonsai-center" style={{ marginBottom: 44 }}>Here&apos;s what most people don&apos;t realize.</h2>
+            <p><strong>The most beautiful sumi-e paintings come from the simplest strokes.</strong></p>
+            <p>A loaded brush, a breath, and a single stroke across rice paper. $30 of materials. That&apos;s all it takes to create something breathtaking.</p>
+            <p>As long as the brush is held right and the ink is mixed correctly, <strong>the paper reveals its own beauty.</strong></p>
+            <p>You load the brush. You breathe. You stroke. And suddenly, you&apos;re holding a piece of art.</p>
+          </section>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 40 }} className="fillpic-grid">
+            <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
+              <Image src="/fillpic_1.png" alt="Sumi-e example 1" fill style={{ objectFit: 'cover' }} />
+            </div>
+            <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
+              <Image src="/fillpic_3.png" alt="Sumi-e example 2" fill style={{ objectFit: 'cover' }} />
+            </div>
+            <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
+              <Image src="/fillpic_4.png" alt="Sumi-e example 3" fill style={{ objectFit: 'cover' }} />
+            </div>
+            <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
+              <Image src="/fillpic_6.png" alt="Sumi-e example 4" fill style={{ objectFit: 'cover' }} />
+            </div>
+          </div>
+
+          <section className="stunning-section" style={{ padding: '48px 0 64px', marginTop: 32 }}>
+              <h2 style={{ marginBottom: 44, textAlign: 'center' }}>&quot;Will my <span style={{ color: 'var(--accent)' }}>sumi-e</span> look as stunning as yours, even if I&apos;m not artistic?&quot;</h2>
+              <p><strong>Yes.</strong></p>
+              <p>You&apos;re not sketching or mimicking. The <strong>technique</strong> creates the image. You just hold the brush, breathe, and stroke.</p>
+              <p>If you can sign your name, you can do this.</p>
+              <p>This course teaches you the three things that matter:<br />how you hold the brush, how much ink you load, and how you control the stroke.</p>
+          </section>
+
+          {/* ANYONE CAN LEARN */}
+          <section className="anyone-section" style={{ padding: '48px 0' }}>
+            <h2 className="bonsai-center" style={{ marginBottom: 64 }}>Anyone can learn <span style={{ color: 'var(--accent)' }}>sumi-e</span>.</h2>
+            <div style={{ maxWidth: 640, margin: '0 auto', fontSize: 20 }}>
+              <p><span style={{ color: 'var(--accent)', fontWeight: 700 }}>&rarr; Even if you&apos;ve never held a brush.</span> A clear step-by-step method that works with basic materials and zero experience.</p>
+              <p><span style={{ color: 'var(--accent)', fontWeight: 700 }}>&rarr; Even if you think Japanese ink painting is too complex.</span> It&apos;s not. You just never had the right teacher.</p>
+              <p><span style={{ color: 'var(--accent)', fontWeight: 700 }}>&rarr; Even if every craft you&apos;ve tried ended in frustration.</span> Sumi-e is forgiving by nature. Even &quot;mistakes&quot; become part of the painting&apos;s character.</p>
+              <p><span style={{ color: 'var(--accent)', fontWeight: 700 }}>&rarr; Even if you don&apos;t consider yourself &quot;artistic.&quot;</span> A brush, an ink stick, some paper, and a little patience. That&apos;s it.</p>
+            </div>
+          </section>
+
+          {/* PHILOSOPHY */}
+          <section style={{ padding: '48px 0' }}>
+            <h2 className="bonsai-center" style={{ marginBottom: 8, fontSize: 'clamp(2rem, 4.5vw, 3rem)' }}>The Philosophy Behind the Practice</h2>
+            <p className="bonsai-center" style={{ margin: '0 auto 28px' }}>Sumi-e carries four Japanese principles that quietly change how you see creativity, beauty, and yourself.</p>
+
+            <div className="phil-block">
+              <div className="phil-kanji">一期一会</div>
+              <div className="phil-title">Ichigo Ichie</div>
+              <div className="phil-rom">Once in a lifetime</div>
+              <p>No two paintings are ever the same. That&apos;s not a limitation. That&apos;s the entire point.</p>
+            </div>
+
+            <div className="phil-block">
+              <div className="phil-kanji">侘寂</div>
+              <div className="phil-title">Wabi-Sabi</div>
+              <div className="phil-rom">Beauty in imperfection</div>
+              <p>The uneven strokes, the soft bleeds, the quiet asymmetry. These aren&apos;t flaws. They&apos;re what make your piece alive.</p>
+            </div>
+
+            <div className="phil-block">
+              <div className="phil-kanji">無心</div>
+              <div className="phil-title">Mushin</div>
+              <div className="phil-rom">The mind without mind</div>
+              <p>Your hand takes over. Your mind gets quiet. The stroke is the practice. The painting is just the reward.</p>
+            </div>
+
+            <div className="phil-block">
+              <div className="phil-kanji">手仕事</div>
+              <div className="phil-title">Teshigoto</div>
+              <div className="phil-rom">The work of hands</div>
+              <p>Just you, brush, and ink. Every piece you create holds a part of you in it.</p>
+            </div>
+          </section>
+
+          {/* INSTRUCTOR */}
+          <section className="instructor">
+            <div className="instructor-img">
+              <div style={{ width: '100%', aspectRatio: '4/5', borderRadius: 16, overflow: 'hidden', position: 'relative' }}>
+                <Image src="/creator.png" alt="Aiko Mori" fill style={{ objectFit: 'cover' }} />
+              </div>
+            </div>
+            <div className="instructor-text">
+              <h2>My name is Aiko Mori.</h2>
+              <p><strong>15+ years practicing and teaching sumi-e.</strong> From traditional bamboo studies to modern abstract ink work. From postcards to hanging scrolls to full gallery pieces.<br /><br />Over <strong>200 original sumi-e paintings</strong> created. Taught <strong>500+ students</strong> in workshops across three countries to paint their first sumi-e piece from scratch.</p>
+              <p>I picked up sumi-e feeling burned out and creatively empty. Within a week I was painting on every scrap of paper in my house. <strong>That obsession never left.</strong> I just learned to channel it.</p>
+            </div>
+          </section>
+
+          {/* COURSE INTRO */}
+          <section className="bonsai-center course-intro">
+            <h2 style={{ marginBottom: 4, fontSize: 'clamp(2.2rem, 5vw, 3.2rem)', fontWeight: 600 }}>Introducing: The Sumi-e<br />Masterclass</h2>
+            <p style={{ fontStyle: 'italic', color: 'var(--ink-muted)' }}>&#22696;&#32117; &#12539; From blank paper to living art.</p>
+          </section>
+
+          {/* HERESWHATYOUGET IMAGE */}
+          <div className="bonsai-center" style={{ marginBottom: 32 }}>
+            <div className="hereswhatyouget-desktop" style={{ position: 'relative', width: '100%', maxWidth: 700, margin: '0 auto' }}>
+              <Image src="/hereswhatyouget.png" alt="Everything included in the course" width={700} height={500} style={{ width: '100%', height: 'auto', borderRadius: 12 }} />
+            </div>
+            <div className="hereswhatyouget-mobile" style={{ position: 'relative', width: '100%', margin: '0 auto' }}>
+              <Image src="/hereswhatyouget_mobile.jpg" alt="Everything included in the course" width={400} height={600} style={{ width: '100%', height: 'auto', borderRadius: 12 }} />
+            </div>
+            <p style={{ margin: '20px auto 0', fontSize: 18, color: 'var(--ink-muted)' }}><strong style={{ color: 'var(--ink)' }}>2+ hours of step-by-step videos</strong> across 15+ lessons</p>
+          </div>
+
+          {/* MODULES */}
+          <section style={{ padding: '20px 0 40px' }}>
+            <h2 className="bonsai-center whats-inside" style={{ marginTop: 86, marginBottom: 24 }}>&#10022; What&apos;s Inside &#10022;</h2>
+
+            <div className="module-card">
+              <div className="module-label">Module 1</div>
+              <h3><span style={{ color: 'var(--accent)' }}>The Living Tradition</span> (Understanding Sumi-e)</h3>
+              <div className="module-sub">The history, philosophy, and principles behind every beautiful sumi-e painting.</div>
+              <div className="module-body">
+                <div className="module-img"><Image src="/module1.png" alt="Module 1 - The Living Tradition" fill style={{ objectFit: 'cover' }} /></div>
+                <ul>
+                  <li>&#10022; The <strong>700-year history of sumi-e</strong> and why this art form has endured across centuries</li>
+                  <li>&#10022; The <strong>Four Gentlemen</strong> (bamboo, orchid, plum, chrysanthemum) and which ones create the most striking results for beginners</li>
+                  <li>&#10022; Why <strong>simple strokes with the right breath</strong> produce more beautiful paintings than complex compositions</li>
+                  <li>&#10022; How to <strong>read and understand sumi-e compositions</strong> so you can design your own</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="module-card">
+              <div className="module-label">Module 2</div>
+              <h3><span style={{ color: 'var(--accent)' }}>Your Sumi-e Toolkit</span> (Materials &amp; Setup)</h3>
+              <div className="module-sub">Your complete shopping list and workspace setup for under $30.</div>
+              <div className="module-body">
+                <div className="module-img"><Image src="/module2.png" alt="Module 2 - Your Sumi-e Toolkit" fill style={{ objectFit: 'cover' }} /></div>
+                <ul>
+                  <li>&#10022; The <strong>$30 shopping list</strong> with exact product links that gives you everything you need for your first 10+ paintings</li>
+                  <li>&#10022; The <strong>best brushes for beginners</strong> and why a single mid-size brush is your secret weapon</li>
+                  <li>&#10022; <strong>Ink stick vs bottled sumi ink:</strong> which one to start with and why</li>
+                  <li>&#10022; How to <strong>set up your painting station</strong> at any desk or kitchen table in 10 minutes</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="module-card">
+              <div className="module-label">Module 3</div>
+              <h3><span style={{ color: 'var(--accent)' }}>Basic Techniques &amp; Ink Effects</span></h3>
+              <div className="module-sub">Learn to control your brush and ink before you paint a single subject. The foundation every painting rests on.</div>
+              <div className="module-body">
+                <div className="module-img"><Image src="/module3.png" alt="Module 3 - Basic Techniques & Ink Effects" fill style={{ objectFit: 'cover' }} /></div>
+                <ul>
+                  <li>&#10022; How to <strong>grind your ink stick</strong> step by step for perfect, consistent tone</li>
+                  <li>&#10022; The <strong>three ink tones</strong> (deep, medium, pale) and why your painting comes alive when you layer them</li>
+                  <li>&#10022; <strong>Wet vs dry brush:</strong> how to control the depth and richness of your blacks</li>
+                  <li>&#10022; <strong>Ink effects:</strong> bleeds, gradations, and negative space that bring your paper to life</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="module-card">
+              <div className="module-label">Module 4</div>
+              <h3><span style={{ color: 'var(--accent)' }}>The Four Gentlemen</span> (Shikunshi)</h3>
+              <div className="module-sub">The four traditional subjects every sumi-e master begins with. This is where blank paper becomes art.</div>
+              <div className="module-body">
+                <div className="module-img"><Image src="/module4.png" alt="Module 4 - The Four Gentlemen (Shikunshi)" fill style={{ objectFit: 'cover' }} /></div>
+                <ul>
+                  <li>&#10022; <strong>Orchid:</strong> the flowing brushstrokes that teach elegance and graceful line</li>
+                  <li>&#10022; <strong>Bamboo:</strong> the foundational strokes that teach rhythm, strength, and restraint</li>
+                  <li>&#10022; <strong>Chrysanthemum:</strong> the layered petals that teach form and composition</li>
+                  <li>&#10022; <strong>Plum blossom:</strong> the dotting technique that teaches spontaneity and life</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="module-card">
+              <div className="module-label">Module 5</div>
+              <h3><span style={{ color: 'var(--accent)' }}>Landscape Sumi-e</span> (Sansuiga)</h3>
+              <div className="module-sub">The traditional next step after the Four Gentlemen. Mountains, water, and mist — the scenery of classical Japanese ink painting.</div>
+              <div className="module-body">
+                <div className="module-img"><Image src="/module5.png" alt="Module 5 - Landscape Sumi-e (Sansuiga)" fill style={{ objectFit: 'cover' }} /></div>
+                <ul>
+                  <li>&#10022; <strong>Mountains and stone:</strong> the foundational strokes that give your landscape weight and distance</li>
+                  <li>&#10022; <strong>Water, mist, and sky:</strong> how ink dilution and negative space bring movement and atmosphere</li>
+                  <li>&#10022; <strong>Pine trees and bamboo groves:</strong> layering strokes to suggest entire forests with a few marks</li>
+                  <li>&#10022; <strong>Classical composition:</strong> foreground, middle, and distance — the three-depth rule behind every great sumi-e landscape</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+
+          {/* CTA after modules */}
+          <section style={{ padding: '56px 0' }}>
+            <div className="bonsai-center" style={{ marginBottom: 32 }}>
+              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>You&apos;ve seen what&apos;s inside. Five modules. A complete system for learning, creating, and mastering sumi-e at home.</p>
+              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>The full price for this course is <strong><s>$97</s></strong>.</p>
+              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>You&apos;re not going to pay that today. And the reason is simple.</p>
+              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>This is the first time I&apos;ve offered this course to the public. I want <strong>50 people</strong> to go through it. I want to read your emails, see your paintings, find out where you get stuck and where you surprise yourself.</p>
+              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>That feedback is worth more to me right now than charging full price. Honestly, I also need to find out if I can handle 50 support inboxes without accidentally spilling ink on my laptop.</p>
+              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>So for this first group, the price is <strong>dramatically lower</strong>. Once those 50 spots fill, this page comes down and the full price goes live.</p>
+            </div>
+            <div className="checkout-box" style={{ maxWidth: 520, margin: '0 auto', padding: '40px 44px', borderRadius: 14, border: '2px solid rgba(45,74,143,0.25)', background: '#ffffff', boxShadow: '0 4px 24px rgba(0,0,0,0.06)', textAlign: 'center' }}>
+              <div className="price-old">Normally $97</div>
+              <p id="get-access" className="now-only" style={{ fontSize: 44, color: 'var(--ink)', fontWeight: 700, marginBottom: 8 }}>Now Only <span style={{ color: '#2d4a8f' }}>$47</span></p>
+              <div className="price-note">One time payment. <span className="lifetime-break" />Lifetime access.</div>
+              <div style={{ marginTop: 20 }}><CheckoutButton /></div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20 }}>
+                <div style={{ flex: 1, height: 1, background: 'rgba(0,0,0,0.12)' }} />
+                <p style={{ margin: 0, fontWeight: 500, fontSize: 16, whiteSpace: 'nowrap', color: 'var(--ink-muted)' }} className="guarantee-text">90 Day Money Back Guarantee</p>
+                <div style={{ flex: 1, height: 1, background: 'rgba(0,0,0,0.12)' }} />
+              </div>
+              <p style={{ color: 'var(--ink-muted)', marginBottom: 12, marginTop: 20 }}>&#128274; Secure payment &#128274;</p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+                <Image src="/visa.svg" alt="Visa" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+                <Image src="/mastercard.svg" alt="Mastercard" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+                <Image src="/american-express.svg" alt="Amex" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+                <Image src="/discover.svg" alt="Discover" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+                <Image src="/paypal.svg" alt="PayPal" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+              </div>
+              <div style={{ width: 48, height: 1, background: 'rgba(0,0,0,0.1)', margin: '20px auto' }} />
+              <p className="ps-note">P.S. If the next page doesn&apos;t load... I&apos;m sorry, but the deal has ended!</p>
+            </div>
+          </section>
+
+          {/* GUARANTEE */}
+          <section className="guarantee-section">
+            <Image src="/guarantee1.webp" alt="90 Day Money Back Guarantee" width={160} height={160} style={{ width: 130, height: 130, marginBottom: 16, margin: '0 auto 16px', display: 'block' }} />
+            <h2 style={{ textAlign: 'center' }}>Try it risk-free</h2>
+            <p style={{ fontSize: 20 }}><strong>You don&apos;t have to make the final decision now.</strong></p>
+            <p style={{ textAlign: 'left', fontSize: 20 }}>Get access to the full course. Get your materials. Learn the brushstrokes. Create your first sumi-e masterpiece. Watch your skills grow with every new painting.</p>
+            <p style={{ textAlign: 'left', fontSize: 20 }}>If you don&apos;t love it, email hello@sumieclass.com within 90 days for a full refund. Within 24 hours. <strong>No questions asked.</strong></p>
+          </section>
+
+          {/* BONUSES */}
+          <section style={{ padding: '36px 0' }}>
+            <p className="bonsai-center" style={{ color: 'var(--ink-muted)', marginBottom: 8 }}>But wait, there&apos;s more</p>
+            <h2 className="bonsai-center" style={{ marginBottom: 24 }}>Order today and you also get:</h2>
+
+            <div className="bonus-card">
+              <div className="bonus-header"><div className="bonus-label">Bonus 1</div><div className="bonus-value">$47 value</div></div>
+              <h3><span style={{ color: 'var(--accent)' }}>The Paper Guide:</span> Which Papers Produce The Best Results</h3>
+              <div className="bonus-desc">The same stroke looks completely different on washi, rice paper, sumi paper, and practice paper. This guide shows you exactly what to expect from each.</div>
+              <div className="bonus-body">
+                <div className="bonus-img"><Image src="/bonus1.png" alt="Bonus 1 - The Paper Guide" fill style={{ objectFit: 'cover' }} /></div>
+                <ul>
+                  <li>&#10022; <strong>Washi, rice paper, sumi paper, and practice paper compared</strong> side by side with the same stroke so you see exactly how each one takes the ink</li>
+                  <li>&#10022; <strong>Where to source the best papers</strong> for under $5 a pack, online and locally</li>
+                  <li>&#10022; <strong>How to prep each paper type</strong> so the ink sits evenly and the strokes come through crisp</li>
+                  <li>&#10022; <strong>The best paper for each technique</strong> so you always get the strongest, most vivid result</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bonus-card">
+              <div className="bonus-header"><div className="bonus-label">Bonus 2</div><div className="bonus-value">$37 value</div></div>
+              <h3>The <span style={{ color: 'var(--accent)' }}>Brush Care &amp; Restoration Guide</span></h3>
+              <div className="bonus-desc">A good sumi brush can last a decade if you treat it right. This guide shows you how to clean, shape, store, and bring neglected brushes back to life.</div>
+              <div className="bonus-body">
+                <div className="bonus-img"><Image src="/bonus2.png" alt="Bonus 2 - Brush Care & Restoration Guide" fill style={{ objectFit: 'cover' }} /></div>
+                <ul>
+                  <li>&#10022; How to <strong>properly wash and rinse</strong> your brushes after every session so ink never dries deep in the bristles</li>
+                  <li>&#10022; How to <strong>reshape the tip</strong> after use so it keeps that needle-sharp point for years</li>
+                  <li>&#10022; <strong>Correct drying and storage</strong> (what most beginners get wrong and how it ruins a brush in weeks)</li>
+                  <li>&#10022; How to <strong>revive a brush</strong> that&apos;s been splayed, stiffened, or neglected</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bonus-card">
+              <div className="bonus-header"><div className="bonus-label">Bonus 3</div><div className="bonus-value">$27 value</div></div>
+              <h3>The <span style={{ color: 'var(--accent)' }}>Seal &amp; Signature Guide</span></h3>
+              <div className="bonus-desc">The red seal (hanko) in the corner is what separates a practice sheet from a finished piece. This guide shows you how to design, order, and place yours like a traditional master.</div>
+              <div className="bonus-body">
+                <div className="bonus-img"><Image src="/bonus3.png" alt="Bonus 3 - The Seal & Signature Guide" fill style={{ objectFit: 'cover' }} /></div>
+                <ul>
+                  <li>&#10022; How to <strong>design your personal hanko</strong> with your name, artist initials, or chosen kanji</li>
+                  <li>&#10022; <strong>Where to order a quality hand-carved seal</strong> for under $20, online and locally</li>
+                  <li>&#10022; <strong>Traditional seal placement</strong> and the meaning behind each position on the painting</li>
+                  <li>&#10022; How to <strong>sign and stamp your work</strong> so it looks authentic, intentional, and collector-grade</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* FIRST STACK + CTA */}
+          <section style={{ padding: '36px 0' }} id="pricing">
+            <h2 className="bonsai-center" style={{ marginBottom: 18 }}>Here&apos;s everything you get:</h2>
+            <div className="stack-row stack-total"><span className="label">&#10003; 5 Core Modules</span><span className="val">$139</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Paper Guide</span><span className="val">$47</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Brush Care &amp; Restoration Guide</span><span className="val">$37</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Seal &amp; Signature Guide</span><span className="val">$27</span></div>
+            <div className="stack-row" style={{ borderBottom: 'none' }}><span className="label" style={{ fontWeight: 700, color: 'var(--ink)' }}>Total Value</span><span className="val" style={{ fontSize: 16 }}>$250</span></div>
+          </section>
+
+          <div className="checkout-box" style={{ maxWidth: 520, margin: '0 auto', padding: '40px 44px', borderRadius: 14, border: '2px solid rgba(45,74,143,0.25)', background: '#ffffff', boxShadow: '0 4px 24px rgba(0,0,0,0.06)', textAlign: 'center' }}>
+            <div className="price-old">Normally $97</div>
+            <p className="now-only" style={{ fontSize: 44, color: 'var(--ink)', fontWeight: 700, marginBottom: 8 }}>Now Only <span style={{ color: '#2d4a8f' }}>$47</span></p>
+            <div className="price-note">One time payment. <span className="lifetime-break" />Lifetime access.</div>
+            <div style={{ marginTop: 20 }}><CheckoutButton /></div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20 }}>
+              <div style={{ flex: 1, height: 1, background: 'rgba(0,0,0,0.12)' }} />
+              <p style={{ margin: 0, fontWeight: 500, fontSize: 16, whiteSpace: 'nowrap', color: 'var(--ink-muted)' }} className="guarantee-text">90 Day Money Back Guarantee</p>
+              <div style={{ flex: 1, height: 1, background: 'rgba(0,0,0,0.12)' }} />
+            </div>
+            <p style={{ color: 'var(--ink-muted)', marginBottom: 12, marginTop: 20 }}>&#128274; Secure payment &#128274;</p>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+              <Image src="/visa.svg" alt="Visa" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+              <Image src="/mastercard.svg" alt="Mastercard" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+              <Image src="/american-express.svg" alt="Amex" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+              <Image src="/discover.svg" alt="Discover" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+              <Image src="/paypal.svg" alt="PayPal" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+            </div>
+            <div style={{ width: 48, height: 1, background: 'rgba(0,0,0,0.1)', margin: '20px auto' }} />
+            <p className="ps-note">P.S. If the next page doesn&apos;t load... I&apos;m sorry, but the deal has ended!</p>
+          </div>
+
+          {/* MEGA BONUS */}
+          <section style={{ padding: '64px 0 64px' }}>
+            <p className="bonsai-center" style={{ color: 'var(--ink-muted)', marginBottom: 8 }}>One last thing...</p>
+            <h2 className="bonsai-center" style={{ marginBottom: 18 }}>Order today and you also get:</h2>
+
+            <div className="bonus-card mega">
+              <div className="bonus-header"><div className="bonus-label">Mega Bonus</div><div className="bonus-value">$79 value</div></div>
+              <h3><span style={{ color: 'var(--accent)' }}>Brushstroke Library:</span> 15 Traditional Sumi-e Subjects</h3>
+              <div className="bonus-desc">A visual reference guide with step-by-step stroke diagrams for 15 classic subjects.</div>
+              <div className="bonus-body">
+                <div className="bonus-img"><Image src="/megabonus.png" alt="Mega Bonus - Brushstroke Library: 15 Subjects" fill style={{ objectFit: 'cover' }} /></div>
+                <ul>
+                  <li>&#10022; <strong>15 subjects ranked by difficulty</strong> so you start with the ones you can nail on your first try</li>
+                  <li>&#10022; <strong>Step-by-step stroke diagrams</strong> for each subject so you never have to guess</li>
+                  <li>&#10022; <strong>Photos of each subject</strong> at different ink intensities so you know what to expect</li>
+                  <li>&#10022; <strong>5 advanced multi-stroke compositions</strong> that combine brushwork, tone, and negative space</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <div className="bonsai-divider" />
+
+          {/* FAQ */}
+          <section style={{ padding: '40px 0' }}>
+            <h2 className="bonsai-center" style={{ marginBottom: 24 }}>Students Usually Ask</h2>
+            <FaqAccordion />
+          </section>
+
+          <div className="bonsai-divider" />
+
+          {/* SECOND STACK + CTA */}
+          <section style={{ padding: '36px 0' }}>
+            <h2 className="bonsai-center" style={{ marginBottom: 18 }}>Here&apos;s everything you get:</h2>
+            <div className="stack-row stack-total"><span className="label">&#10003; 5 Core Modules</span><span className="val">$139</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Paper Guide</span><span className="val">$47</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Brush Care &amp; Restoration Guide</span><span className="val">$37</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Seal &amp; Signature Guide</span><span className="val">$27</span></div>
+            <div className="stack-row"><span className="label">&#10003; Brushstroke Library: 15 Subjects</span><span className="val">$79</span></div>
+            <div className="stack-row" style={{ borderBottom: 'none' }}><span className="label" style={{ fontWeight: 700, color: 'var(--ink)' }}>Total Value</span><span className="val" style={{ fontSize: 16 }}>$329</span></div>
+          </section>
+
+          <div className="checkout-box" style={{ maxWidth: 520, margin: '0 auto', padding: '40px 44px', borderRadius: 14, border: '2px solid rgba(45,74,143,0.25)', background: '#ffffff', boxShadow: '0 4px 24px rgba(0,0,0,0.06)', textAlign: 'center' }}>
+            <div className="price-old">Normally $97</div>
+            <p className="now-only" style={{ fontSize: 44, color: 'var(--ink)', fontWeight: 700, marginBottom: 8 }}>Now Only <span style={{ color: '#2d4a8f' }}>$47</span></p>
+            <div className="price-note">One time payment. <span className="lifetime-break" />Lifetime access.</div>
+            <div style={{ marginTop: 20 }}><CheckoutButton /></div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20 }}>
+              <div style={{ flex: 1, height: 1, background: 'rgba(0,0,0,0.12)' }} />
+              <p style={{ margin: 0, fontWeight: 500, fontSize: 16, whiteSpace: 'nowrap', color: 'var(--ink-muted)' }} className="guarantee-text">90 Day Money Back Guarantee</p>
+              <div style={{ flex: 1, height: 1, background: 'rgba(0,0,0,0.12)' }} />
+            </div>
+            <p style={{ color: 'var(--ink-muted)', marginBottom: 12, marginTop: 20 }}>&#128274; Secure payment &#128274;</p>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+              <Image src="/visa.svg" alt="Visa" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+              <Image src="/mastercard.svg" alt="Mastercard" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+              <Image src="/american-express.svg" alt="Amex" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+              <Image src="/discover.svg" alt="Discover" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+              <Image src="/paypal.svg" alt="PayPal" width={40} height={26} style={{ height: 26, width: 'auto' }} />
+            </div>
+            <div style={{ width: 48, height: 1, background: 'rgba(0,0,0,0.1)', margin: '20px auto' }} />
+            <p className="ps-note">P.S. If the next page doesn&apos;t load... I&apos;m sorry, but the deal has ended!</p>
+          </div>
+
+          <div className="bonsai-divider" />
+
+
+        </div>
+      </div>
+
+{/* FOOTER */}
+      <footer className="bonsai-footer" style={{ paddingBottom: 100 }}>
+        <p>&copy; 2026 Sumi-e Class. All rights reserved.</p>
+        <p style={{ marginTop: 5 }}><a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
+        <p style={{ marginTop: 16, fontSize: 11, color: '#666', maxWidth: 600, margin: '16px auto 0', lineHeight: 1.5 }}>This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc.</p>
+      </footer>
+    </main>
+  );
+}
