@@ -321,6 +321,18 @@ export default function Home() {
             <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
               <Image src="/fillpic_6.png" alt="Sumi-e example 4" fill style={{ objectFit: 'cover' }} />
             </div>
+            <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
+              <Image src="/fillpic_7.png" alt="Sumi-e example 5" fill style={{ objectFit: 'cover' }} />
+            </div>
+            <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
+              <Image src="/fillpic_8.png" alt="Sumi-e example 6" fill style={{ objectFit: 'cover' }} />
+            </div>
+            <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
+              <Image src="/fillpic_9.png" alt="Sumi-e example 7" fill style={{ objectFit: 'cover' }} />
+            </div>
+            <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
+              <Image src="/fillpic_10.png" alt="Sumi-e example 8" fill style={{ objectFit: 'cover' }} />
+            </div>
           </div>
 
           <section className="stunning-section" style={{ padding: '48px 0 64px', marginTop: 32 }}>
