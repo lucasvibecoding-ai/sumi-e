@@ -40,13 +40,13 @@ export default function OrderConfirmation({ customerEmail }: OrderConfirmationPr
           </Text>
 
           <Text style={optionText}>
-            <strong>The updated course will be available May 17th.</strong> It&apos;s going to be incredible. As a thank you for your patience, I&apos;ll give you <strong>one additional bonus for free</strong>.
+            <strong>The updated course will be available May 18th.</strong> It&apos;s going to be incredible. As a thank you for your patience, I&apos;ll give you <strong>one additional bonus for free</strong>.
           </Text>
 
           <Hr style={divider} />
 
           <Text style={text}>
-            I&apos;ll send you access as soon as the updated version is live on May 17th. If you have any questions in the meantime, just reply to this email.
+            I&apos;ll send you access as soon as the updated version is live on May 18th. If you have any questions in the meantime, just reply to this email.
           </Text>
 
           <Text style={signature}>
