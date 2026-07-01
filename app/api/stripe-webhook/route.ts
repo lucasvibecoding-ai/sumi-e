@@ -98,11 +98,14 @@ export async function POST(request: Request) {
 
     try {
       const html = await render(OrderConfirmation({ customerEmail: toEmail, setupUrl, loginUrl }));
+      const subject = setupUrl || loginUrl
+        ? 'Your Sumi-e Course is ready!'
+        : 'About your course purchase. Important update';
       const emailResult = await resend.emails.send({
         from: 'Aiko Mori <hello@sumieclass.com>',
         to: toEmail,
         replyTo: 'hello@sumieclass.com',
-        subject: 'About your course purchase. Important update',
+        subject,
         html,
       });
       console.log(`Email sent successfully to ${toEmail}:`, emailResult);
