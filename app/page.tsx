@@ -3,6 +3,8 @@ import Image from "next/image";
 import CheckoutButton from "./CheckoutButton";
 import CountdownBar from "./CountdownBar";
 import FaqAccordion from "./FaqAccordion";
+import { headers } from "next/headers";
+import { currencyForCountry, currencySymbol } from "../lib/pricing";
 
 export const metadata: Metadata = {
   title: "Sumi-e: Learn The 700-Year Old Japanese Art Of Ink Painting",
@@ -10,7 +12,11 @@ export const metadata: Metadata = {
     "Learn the ancient Japanese art of sumi-e ink painting at home with no experience. Create beautiful ink paintings on rice paper in under 2 hours.",
 };
 
-export default function Home() {
+export default async function Home() {
+  // Match the checkout currency: EUR for most of the world, USD for the Americas + AU/NZ.
+  const sym = currencySymbol(
+    currencyForCountry((await headers()).get("x-vercel-ip-country"))
+  );
   return (
     <main className="overflow-hidden">
       <CountdownBar />
@@ -286,7 +292,7 @@ export default function Home() {
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
                   <span style={{ color: 'var(--accent)', marginTop: 4, flexShrink: 0 }}>&#8594;</span>
                   <p style={{ margin: 0 }}>
-                    <strong style={{ color: 'var(--accent)' }}>make handmade pieces that cost under $5 in materials</strong> but look like they came from a Japanese artisan shop.
+                    <strong style={{ color: 'var(--accent)' }}>make handmade pieces that cost under {sym}5 in materials</strong> but look like they came from a Japanese artisan shop.
                   </p>
                 </div>
               </div>
@@ -303,7 +309,7 @@ export default function Home() {
           <section style={{ padding: '48px 0 32px' }}>
             <h2 className="bonsai-center" style={{ marginBottom: 44 }}>Here&apos;s what most people don&apos;t realize.</h2>
             <p><strong>The most beautiful sumi-e paintings come from the simplest strokes.</strong></p>
-            <p>A loaded brush, a breath, and a single stroke across rice paper. $30 of materials. That&apos;s all it takes to create something breathtaking.</p>
+            <p>A loaded brush, a breath, and a single stroke across rice paper. {sym}30 of materials. That&apos;s all it takes to create something breathtaking.</p>
             <p>As long as the brush is held right and the ink is mixed correctly, <strong>the paper reveals its own beauty.</strong></p>
             <p>You load the brush. You breathe. You stroke. And suddenly, you&apos;re holding a piece of art.</p>
           </section>
@@ -441,11 +447,11 @@ export default function Home() {
             <div className="module-card">
               <div className="module-label">Module 2</div>
               <h3><span style={{ color: 'var(--accent)' }}>Your Sumi-e Toolkit</span> (Materials &amp; Setup)</h3>
-              <div className="module-sub">Your complete shopping list and workspace setup for under $30.</div>
+              <div className="module-sub">Your complete shopping list and workspace setup for under {sym}30.</div>
               <div className="module-body">
                 <div className="module-img"><Image src="/module2.png" alt="Module 2 - Your Sumi-e Toolkit" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
-                  <li>&#10022; The <strong>$30 shopping list</strong> with exact product links that gives you everything you need for your first 10+ paintings</li>
+                  <li>&#10022; The <strong>{sym}30 shopping list</strong> with exact product links that gives you everything you need for your first 10+ paintings</li>
                   <li>&#10022; The <strong>best brushes for beginners</strong> and why a single mid-size brush is your secret weapon</li>
                   <li>&#10022; <strong>Ink stick vs bottled sumi ink:</strong> which one to start with and why</li>
                   <li>&#10022; How to <strong>set up your painting station</strong> at any desk or kitchen table in 10 minutes</li>
@@ -504,15 +510,15 @@ export default function Home() {
           <section style={{ padding: '56px 0' }}>
             <div className="bonsai-center" style={{ marginBottom: 32 }}>
               <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>You&apos;ve seen what&apos;s inside. Five modules. A complete system for learning, creating, and mastering sumi-e at home.</p>
-              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>The full price for this course is <strong><s>$97</s></strong>.</p>
+              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>The full price for this course is <strong><s>{sym}97</s></strong>.</p>
               <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>You&apos;re not going to pay that today. And the reason is simple.</p>
               <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>This is the first time I&apos;ve offered this course to the public. I want <strong>50 people</strong> to go through it. I want to read your emails, see your paintings, find out where you get stuck and where you surprise yourself.</p>
               <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>That feedback is worth more to me right now than charging full price. Honestly, I also need to find out if I can handle 50 support inboxes without accidentally spilling ink on my laptop.</p>
               <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>So for this first group, the price is <strong>dramatically lower</strong>. Once those 50 spots fill, this page comes down and the full price goes live.</p>
             </div>
             <div className="checkout-box" style={{ maxWidth: 520, margin: '0 auto', padding: '40px 44px', borderRadius: 14, border: '2px solid rgba(45,74,143,0.25)', background: '#ffffff', boxShadow: '0 4px 24px rgba(0,0,0,0.06)', textAlign: 'center' }}>
-              <div className="price-old">Normally $97</div>
-              <p id="get-access" className="now-only" style={{ fontSize: 44, color: 'var(--ink)', fontWeight: 700, marginBottom: 8 }}>Now Only <span style={{ color: '#2d4a8f' }}>$47</span></p>
+              <div className="price-old">Normally {sym}97</div>
+              <p id="get-access" className="now-only" style={{ fontSize: 44, color: 'var(--ink)', fontWeight: 700, marginBottom: 8 }}>Now Only <span style={{ color: '#2d4a8f' }}>{sym}47</span></p>
               <div className="price-note">One time payment. <span className="lifetime-break" />Lifetime access.</div>
               <div style={{ marginTop: 20 }}><CheckoutButton /></div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20 }}>
@@ -548,14 +554,14 @@ export default function Home() {
             <h2 className="bonsai-center" style={{ marginBottom: 24 }}>Order today and you also get:</h2>
 
             <div className="bonus-card">
-              <div className="bonus-header"><div className="bonus-label">Bonus 1</div><div className="bonus-value">$47 value</div></div>
+              <div className="bonus-header"><div className="bonus-label">Bonus 1</div><div className="bonus-value">{sym}47 value</div></div>
               <h3><span style={{ color: 'var(--accent)' }}>The Paper Guide:</span> Which Papers Produce The Best Results</h3>
               <div className="bonus-desc">The same stroke looks completely different on washi, rice paper, sumi paper, and practice paper. This guide shows you exactly what to expect from each.</div>
               <div className="bonus-body">
                 <div className="bonus-img"><Image src="/bonus1.png" alt="Bonus 1 - The Paper Guide" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
                   <li>&#10022; <strong>Washi, rice paper, sumi paper, and practice paper compared</strong> side by side with the same stroke so you see exactly how each one takes the ink</li>
-                  <li>&#10022; <strong>Where to source the best papers</strong> for under $5 a pack, online and locally</li>
+                  <li>&#10022; <strong>Where to source the best papers</strong> for under {sym}5 a pack, online and locally</li>
                   <li>&#10022; <strong>How to prep each paper type</strong> so the ink sits evenly and the strokes come through crisp</li>
                   <li>&#10022; <strong>The best paper for each technique</strong> so you always get the strongest, most vivid result</li>
                 </ul>
@@ -563,7 +569,7 @@ export default function Home() {
             </div>
 
             <div className="bonus-card">
-              <div className="bonus-header"><div className="bonus-label">Bonus 2</div><div className="bonus-value">$37 value</div></div>
+              <div className="bonus-header"><div className="bonus-label">Bonus 2</div><div className="bonus-value">{sym}37 value</div></div>
               <h3>The <span style={{ color: 'var(--accent)' }}>Brush Care &amp; Restoration Guide</span></h3>
               <div className="bonus-desc">A good sumi brush can last a decade if you treat it right. This guide shows you how to clean, shape, store, and bring neglected brushes back to life.</div>
               <div className="bonus-body">
@@ -578,14 +584,14 @@ export default function Home() {
             </div>
 
             <div className="bonus-card">
-              <div className="bonus-header"><div className="bonus-label">Bonus 3</div><div className="bonus-value">$27 value</div></div>
+              <div className="bonus-header"><div className="bonus-label">Bonus 3</div><div className="bonus-value">{sym}27 value</div></div>
               <h3>The <span style={{ color: 'var(--accent)' }}>Seal &amp; Signature Guide</span></h3>
               <div className="bonus-desc">The red seal (hanko) in the corner is what separates a practice sheet from a finished piece. This guide shows you how to design, order, and place yours like a traditional master.</div>
               <div className="bonus-body">
                 <div className="bonus-img"><Image src="/bonus3.png" alt="Bonus 3 - The Seal & Signature Guide" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
                   <li>&#10022; How to <strong>design your personal hanko</strong> with your name, artist initials, or chosen kanji</li>
-                  <li>&#10022; <strong>Where to order a quality hand-carved seal</strong> for under $20, online and locally</li>
+                  <li>&#10022; <strong>Where to order a quality hand-carved seal</strong> for under {sym}20, online and locally</li>
                   <li>&#10022; <strong>Traditional seal placement</strong> and the meaning behind each position on the painting</li>
                   <li>&#10022; How to <strong>sign and stamp your work</strong> so it looks authentic, intentional, and collector-grade</li>
                 </ul>
@@ -596,16 +602,16 @@ export default function Home() {
           {/* FIRST STACK + CTA */}
           <section style={{ padding: '36px 0' }} id="pricing">
             <h2 className="bonsai-center" style={{ marginBottom: 18 }}>Here&apos;s everything you get:</h2>
-            <div className="stack-row stack-total"><span className="label">&#10003; 5 Core Modules</span><span className="val">$139</span></div>
-            <div className="stack-row"><span className="label">&#10003; The Paper Guide</span><span className="val">$47</span></div>
-            <div className="stack-row"><span className="label">&#10003; The Brush Care &amp; Restoration Guide</span><span className="val">$37</span></div>
-            <div className="stack-row"><span className="label">&#10003; The Seal &amp; Signature Guide</span><span className="val">$27</span></div>
-            <div className="stack-row" style={{ borderBottom: 'none' }}><span className="label" style={{ fontWeight: 700, color: 'var(--ink)' }}>Total Value</span><span className="val" style={{ fontSize: 16 }}>$250</span></div>
+            <div className="stack-row stack-total"><span className="label">&#10003; 5 Core Modules</span><span className="val">{sym}139</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Paper Guide</span><span className="val">{sym}47</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Brush Care &amp; Restoration Guide</span><span className="val">{sym}37</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Seal &amp; Signature Guide</span><span className="val">{sym}27</span></div>
+            <div className="stack-row" style={{ borderBottom: 'none' }}><span className="label" style={{ fontWeight: 700, color: 'var(--ink)' }}>Total Value</span><span className="val" style={{ fontSize: 16 }}>{sym}250</span></div>
           </section>
 
           <div className="checkout-box" style={{ maxWidth: 520, margin: '0 auto', padding: '40px 44px', borderRadius: 14, border: '2px solid rgba(45,74,143,0.25)', background: '#ffffff', boxShadow: '0 4px 24px rgba(0,0,0,0.06)', textAlign: 'center' }}>
-            <div className="price-old">Normally $97</div>
-            <p className="now-only" style={{ fontSize: 44, color: 'var(--ink)', fontWeight: 700, marginBottom: 8 }}>Now Only <span style={{ color: '#2d4a8f' }}>$47</span></p>
+            <div className="price-old">Normally {sym}97</div>
+            <p className="now-only" style={{ fontSize: 44, color: 'var(--ink)', fontWeight: 700, marginBottom: 8 }}>Now Only <span style={{ color: '#2d4a8f' }}>{sym}47</span></p>
             <div className="price-note">One time payment. <span className="lifetime-break" />Lifetime access.</div>
             <div style={{ marginTop: 20 }}><CheckoutButton /></div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20 }}>
@@ -631,7 +637,7 @@ export default function Home() {
             <h2 className="bonsai-center" style={{ marginBottom: 18 }}>Order today and you also get:</h2>
 
             <div className="bonus-card mega">
-              <div className="bonus-header"><div className="bonus-label">Mega Bonus</div><div className="bonus-value">$79 value</div></div>
+              <div className="bonus-header"><div className="bonus-label">Mega Bonus</div><div className="bonus-value">{sym}79 value</div></div>
               <h3><span style={{ color: 'var(--accent)' }}>Brushstroke Library:</span> 15 Traditional Sumi-e Subjects</h3>
               <div className="bonus-desc">A visual reference guide with step-by-step stroke diagrams for 15 classic subjects.</div>
               <div className="bonus-body">
@@ -659,17 +665,17 @@ export default function Home() {
           {/* SECOND STACK + CTA */}
           <section style={{ padding: '36px 0' }}>
             <h2 className="bonsai-center" style={{ marginBottom: 18 }}>Here&apos;s everything you get:</h2>
-            <div className="stack-row stack-total"><span className="label">&#10003; 5 Core Modules</span><span className="val">$139</span></div>
-            <div className="stack-row"><span className="label">&#10003; The Paper Guide</span><span className="val">$47</span></div>
-            <div className="stack-row"><span className="label">&#10003; The Brush Care &amp; Restoration Guide</span><span className="val">$37</span></div>
-            <div className="stack-row"><span className="label">&#10003; The Seal &amp; Signature Guide</span><span className="val">$27</span></div>
-            <div className="stack-row"><span className="label">&#10003; Brushstroke Library: 15 Subjects</span><span className="val">$79</span></div>
-            <div className="stack-row" style={{ borderBottom: 'none' }}><span className="label" style={{ fontWeight: 700, color: 'var(--ink)' }}>Total Value</span><span className="val" style={{ fontSize: 16 }}>$329</span></div>
+            <div className="stack-row stack-total"><span className="label">&#10003; 5 Core Modules</span><span className="val">{sym}139</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Paper Guide</span><span className="val">{sym}47</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Brush Care &amp; Restoration Guide</span><span className="val">{sym}37</span></div>
+            <div className="stack-row"><span className="label">&#10003; The Seal &amp; Signature Guide</span><span className="val">{sym}27</span></div>
+            <div className="stack-row"><span className="label">&#10003; Brushstroke Library: 15 Subjects</span><span className="val">{sym}79</span></div>
+            <div className="stack-row" style={{ borderBottom: 'none' }}><span className="label" style={{ fontWeight: 700, color: 'var(--ink)' }}>Total Value</span><span className="val" style={{ fontSize: 16 }}>{sym}329</span></div>
           </section>
 
           <div className="checkout-box" style={{ maxWidth: 520, margin: '0 auto', padding: '40px 44px', borderRadius: 14, border: '2px solid rgba(45,74,143,0.25)', background: '#ffffff', boxShadow: '0 4px 24px rgba(0,0,0,0.06)', textAlign: 'center' }}>
-            <div className="price-old">Normally $97</div>
-            <p className="now-only" style={{ fontSize: 44, color: 'var(--ink)', fontWeight: 700, marginBottom: 8 }}>Now Only <span style={{ color: '#2d4a8f' }}>$47</span></p>
+            <div className="price-old">Normally {sym}97</div>
+            <p className="now-only" style={{ fontSize: 44, color: 'var(--ink)', fontWeight: 700, marginBottom: 8 }}>Now Only <span style={{ color: '#2d4a8f' }}>{sym}47</span></p>
             <div className="price-note">One time payment. <span className="lifetime-break" />Lifetime access.</div>
             <div style={{ marginTop: 20 }}><CheckoutButton /></div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20 }}>
