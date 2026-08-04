@@ -250,14 +250,14 @@ export default async function Home() {
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 28, gap: 12 }}>
               <div id="hero" style={{ width: '90%', maxWidth: 640, aspectRatio: '1/1', borderRadius: 16, overflow: 'hidden', position: 'relative', boxShadow: '0 12px 40px rgba(26,45,107,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
-                <Image src="/hero.png" alt="Sumi-e Masterclass" fill style={{ objectFit: 'cover' }} />
+                <Image src="/hero.webp" alt="Sumi-e Masterclass" fill style={{ objectFit: 'cover' }} />
               </div>
               <div className="below-hero-row" style={{ display: 'flex', gap: 12, width: '90%', maxWidth: 640 }}>
                 <div style={{ flex: 1, aspectRatio: '1/1', borderRadius: 12, overflow: 'hidden', position: 'relative', boxShadow: '0 6px 20px rgba(26,45,107,0.2)' }}>
-                  <Image src="/below_hero1.png" alt="Sumi-e example" fill style={{ objectFit: 'cover' }} />
+                  <Image src="/below_hero1.webp" alt="Sumi-e example" fill style={{ objectFit: 'cover' }} />
                 </div>
                 <div style={{ flex: 1, aspectRatio: '1/1', borderRadius: 12, overflow: 'hidden', position: 'relative', boxShadow: '0 6px 20px rgba(26,45,107,0.2)' }}>
-                  <Image src="/below_hero2.png" alt="Sumi-e example" fill style={{ objectFit: 'cover' }} />
+                  <Image src="/below_hero2.webp" alt="Sumi-e example" fill style={{ objectFit: 'cover' }} />
                 </div>
               </div>
             </div>
@@ -316,28 +316,28 @@ export default async function Home() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 40 }} className="fillpic-grid">
             <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
-              <Image src="/fillpic_1.png" alt="Sumi-e example 1" fill style={{ objectFit: 'cover' }} />
+              <Image src="/fillpic_1.webp" alt="Sumi-e example 1" fill style={{ objectFit: 'cover' }} />
             </div>
             <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
-              <Image src="/fillpic_3.png" alt="Sumi-e example 2" fill style={{ objectFit: 'cover' }} />
+              <Image src="/fillpic_3.webp" alt="Sumi-e example 2" fill style={{ objectFit: 'cover' }} />
             </div>
             <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
-              <Image src="/fillpic_4.png" alt="Sumi-e example 3" fill style={{ objectFit: 'cover' }} />
+              <Image src="/fillpic_4.webp" alt="Sumi-e example 3" fill style={{ objectFit: 'cover' }} />
             </div>
             <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
-              <Image src="/fillpic_6.png" alt="Sumi-e example 4" fill style={{ objectFit: 'cover' }} />
+              <Image src="/fillpic_6.webp" alt="Sumi-e example 4" fill style={{ objectFit: 'cover' }} />
             </div>
             <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
-              <Image src="/fillpic_7.png" alt="Sumi-e example 5" fill style={{ objectFit: 'cover' }} />
+              <Image src="/fillpic_7.webp" alt="Sumi-e example 5" fill style={{ objectFit: 'cover' }} />
             </div>
             <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
-              <Image src="/fillpic_8.png" alt="Sumi-e example 6" fill style={{ objectFit: 'cover' }} />
+              <Image src="/fillpic_8.webp" alt="Sumi-e example 6" fill style={{ objectFit: 'cover' }} />
             </div>
             <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
-              <Image src="/fillpic_9.png" alt="Sumi-e example 7" fill style={{ objectFit: 'cover' }} />
+              <Image src="/fillpic_9.webp" alt="Sumi-e example 7" fill style={{ objectFit: 'cover' }} />
             </div>
             <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', position: 'relative' }}>
-              <Image src="/fillpic_10.png" alt="Sumi-e example 8" fill style={{ objectFit: 'cover' }} />
+              <Image src="/fillpic_10.webp" alt="Sumi-e example 8" fill style={{ objectFit: 'cover' }} />
             </div>
           </div>
 
@@ -398,7 +398,7 @@ export default async function Home() {
           <section className="instructor">
             <div className="instructor-img">
               <div style={{ width: '100%', aspectRatio: '4/5', borderRadius: 16, overflow: 'hidden', position: 'relative' }}>
-                <Image src="/creator.png" alt="Aiko Mori" fill style={{ objectFit: 'cover' }} />
+                <Image src="/creator.webp" alt="Aiko Mori" fill style={{ objectFit: 'cover' }} />
               </div>
             </div>
             <div className="instructor-text">
@@ -417,10 +417,10 @@ export default async function Home() {
           {/* HERESWHATYOUGET IMAGE */}
           <div className="bonsai-center" style={{ marginBottom: 32 }}>
             <div className="hereswhatyouget-desktop" style={{ position: 'relative', width: '100%', maxWidth: 700, margin: '0 auto' }}>
-              <Image src="/hereswhatyouget.png" alt="Everything included in the course" width={700} height={500} style={{ width: '100%', height: 'auto', borderRadius: 12 }} />
+              <Image src="/hereswhatyouget.webp" alt="Everything included in the course" width={700} height={500} style={{ width: '100%', height: 'auto', borderRadius: 12 }} />
             </div>
             <div className="hereswhatyouget-mobile" style={{ position: 'relative', width: '100%', margin: '0 auto' }}>
-              <Image src="/hereswhatyouget_mobile.jpg" alt="Everything included in the course" width={400} height={600} style={{ width: '100%', height: 'auto', borderRadius: 12 }} />
+              <Image src="/hereswhatyouget_mobile.webp" alt="Everything included in the course" width={400} height={600} style={{ width: '100%', height: 'auto', borderRadius: 12 }} />
             </div>
             <p style={{ margin: '20px auto 0', fontSize: 18, color: 'var(--ink-muted)' }}><strong style={{ color: 'var(--ink)' }}>2+ hours of step-by-step videos</strong> across 15+ lessons</p>
           </div>
@@ -434,7 +434,7 @@ export default async function Home() {
               <h3><span style={{ color: 'var(--accent)' }}>The Living Tradition</span> (Understanding Sumi-e)</h3>
               <div className="module-sub">The history, philosophy, and principles behind every beautiful sumi-e painting.</div>
               <div className="module-body">
-                <div className="module-img"><Image src="/module1.png" alt="Module 1 - The Living Tradition" fill style={{ objectFit: 'cover' }} /></div>
+                <div className="module-img"><Image src="/module1.webp" alt="Module 1 - The Living Tradition" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
                   <li>&#10022; The <strong>700-year history of sumi-e</strong> and why this art form has endured across centuries</li>
                   <li>&#10022; The <strong>Four Gentlemen</strong> (bamboo, orchid, plum, chrysanthemum) and which ones create the most striking results for beginners</li>
@@ -449,7 +449,7 @@ export default async function Home() {
               <h3><span style={{ color: 'var(--accent)' }}>Your Sumi-e Toolkit</span> (Materials &amp; Setup)</h3>
               <div className="module-sub">Your complete shopping list and workspace setup for under {sym}30.</div>
               <div className="module-body">
-                <div className="module-img"><Image src="/module2.png" alt="Module 2 - Your Sumi-e Toolkit" fill style={{ objectFit: 'cover' }} /></div>
+                <div className="module-img"><Image src="/module2.webp" alt="Module 2 - Your Sumi-e Toolkit" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
                   <li>&#10022; The <strong>{sym}30 shopping list</strong> with exact product links that gives you everything you need for your first 10+ paintings</li>
                   <li>&#10022; The <strong>best brushes for beginners</strong> and why a single mid-size brush is your secret weapon</li>
@@ -464,7 +464,7 @@ export default async function Home() {
               <h3><span style={{ color: 'var(--accent)' }}>Basic Techniques &amp; Ink Effects</span></h3>
               <div className="module-sub">Learn to control your brush and ink before you paint a single subject. The foundation every painting rests on.</div>
               <div className="module-body">
-                <div className="module-img"><Image src="/module3.png" alt="Module 3 - Basic Techniques & Ink Effects" fill style={{ objectFit: 'cover' }} /></div>
+                <div className="module-img"><Image src="/module3.webp" alt="Module 3 - Basic Techniques & Ink Effects" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
                   <li>&#10022; How to <strong>grind your ink stick</strong> step by step for perfect, consistent tone</li>
                   <li>&#10022; The <strong>three ink tones</strong> (deep, medium, pale) and why your painting comes alive when you layer them</li>
@@ -479,7 +479,7 @@ export default async function Home() {
               <h3><span style={{ color: 'var(--accent)' }}>The Four Gentlemen</span> (Shikunshi)</h3>
               <div className="module-sub">The four traditional subjects every sumi-e master begins with. This is where blank paper becomes art.</div>
               <div className="module-body">
-                <div className="module-img"><Image src="/module4.png" alt="Module 4 - The Four Gentlemen (Shikunshi)" fill style={{ objectFit: 'cover' }} /></div>
+                <div className="module-img"><Image src="/module4.webp" alt="Module 4 - The Four Gentlemen (Shikunshi)" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
                   <li>&#10022; <strong>Orchid:</strong> the flowing brushstrokes that teach elegance and graceful line</li>
                   <li>&#10022; <strong>Bamboo:</strong> the foundational strokes that teach rhythm, strength, and restraint</li>
@@ -494,7 +494,7 @@ export default async function Home() {
               <h3><span style={{ color: 'var(--accent)' }}>Landscape Sumi-e</span> (Sansuiga)</h3>
               <div className="module-sub">The traditional next step after the Four Gentlemen. Mountains, water, and mist — the scenery of classical Japanese ink painting.</div>
               <div className="module-body">
-                <div className="module-img"><Image src="/module5.png" alt="Module 5 - Landscape Sumi-e (Sansuiga)" fill style={{ objectFit: 'cover' }} /></div>
+                <div className="module-img"><Image src="/module5.webp" alt="Module 5 - Landscape Sumi-e (Sansuiga)" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
                   <li>&#10022; <strong>Mountains and stone:</strong> the foundational strokes that give your landscape weight and distance</li>
                   <li>&#10022; <strong>Water, mist, and sky:</strong> how ink dilution and negative space bring movement and atmosphere</li>
@@ -558,7 +558,7 @@ export default async function Home() {
               <h3><span style={{ color: 'var(--accent)' }}>The Paper Guide:</span> Which Papers Produce The Best Results</h3>
               <div className="bonus-desc">The same stroke looks completely different on washi, rice paper, sumi paper, and practice paper. This guide shows you exactly what to expect from each.</div>
               <div className="bonus-body">
-                <div className="bonus-img"><Image src="/bonus1.png" alt="Bonus 1 - The Paper Guide" fill style={{ objectFit: 'cover' }} /></div>
+                <div className="bonus-img"><Image src="/bonus1.webp" alt="Bonus 1 - The Paper Guide" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
                   <li>&#10022; <strong>Washi, rice paper, sumi paper, and practice paper compared</strong> side by side with the same stroke so you see exactly how each one takes the ink</li>
                   <li>&#10022; <strong>Where to source the best papers</strong> for under {sym}5 a pack, online and locally</li>
@@ -573,7 +573,7 @@ export default async function Home() {
               <h3>The <span style={{ color: 'var(--accent)' }}>Brush Care &amp; Restoration Guide</span></h3>
               <div className="bonus-desc">A good sumi brush can last a decade if you treat it right. This guide shows you how to clean, shape, store, and bring neglected brushes back to life.</div>
               <div className="bonus-body">
-                <div className="bonus-img"><Image src="/bonus2.png" alt="Bonus 2 - Brush Care & Restoration Guide" fill style={{ objectFit: 'cover' }} /></div>
+                <div className="bonus-img"><Image src="/bonus2.webp" alt="Bonus 2 - Brush Care & Restoration Guide" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
                   <li>&#10022; How to <strong>properly wash and rinse</strong> your brushes after every session so ink never dries deep in the bristles</li>
                   <li>&#10022; How to <strong>reshape the tip</strong> after use so it keeps that needle-sharp point for years</li>
@@ -588,7 +588,7 @@ export default async function Home() {
               <h3>The <span style={{ color: 'var(--accent)' }}>Seal &amp; Signature Guide</span></h3>
               <div className="bonus-desc">The red seal (hanko) in the corner is what separates a practice sheet from a finished piece. This guide shows you how to design, order, and place yours like a traditional master.</div>
               <div className="bonus-body">
-                <div className="bonus-img"><Image src="/bonus3.png" alt="Bonus 3 - The Seal & Signature Guide" fill style={{ objectFit: 'cover' }} /></div>
+                <div className="bonus-img"><Image src="/bonus3.webp" alt="Bonus 3 - The Seal & Signature Guide" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
                   <li>&#10022; How to <strong>design your personal hanko</strong> with your name, artist initials, or chosen kanji</li>
                   <li>&#10022; <strong>Where to order a quality hand-carved seal</strong> for under {sym}20, online and locally</li>
@@ -641,7 +641,7 @@ export default async function Home() {
               <h3><span style={{ color: 'var(--accent)' }}>Brushstroke Library:</span> 15 Traditional Sumi-e Subjects</h3>
               <div className="bonus-desc">A visual reference guide with step-by-step stroke diagrams for 15 classic subjects.</div>
               <div className="bonus-body">
-                <div className="bonus-img"><Image src="/megabonus.png" alt="Mega Bonus - Brushstroke Library: 15 Subjects" fill style={{ objectFit: 'cover' }} /></div>
+                <div className="bonus-img"><Image src="/megabonus.webp" alt="Mega Bonus - Brushstroke Library: 15 Subjects" fill style={{ objectFit: 'cover' }} /></div>
                 <ul>
                   <li>&#10022; <strong>15 subjects ranked by difficulty</strong> so you start with the ones you can nail on your first try</li>
                   <li>&#10022; <strong>Step-by-step stroke diagrams</strong> for each subject so you never have to guess</li>
