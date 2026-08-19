@@ -358,9 +358,12 @@ export default function CheckoutClient() {
 
         .order-bump .bump-image {
           grid-area: image;
-          width: 100%;
-          height: 200px;
+          width: 82%;
+          max-width: 340px;
+          aspect-ratio: 4 / 3;
+          height: auto;
           object-fit: cover;
+          justify-self: center;
           border-radius: 6px;
           background: #ffffff;
           border: 1px solid rgba(0,0,0,0.06);
@@ -402,7 +405,6 @@ export default function CheckoutClient() {
             padding: 14px;
           }
           .order-bump .bump-image {
-            height: 150px;
             margin-top: 8px;
           }
         }
