@@ -13,14 +13,27 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
 
+const BUMP_PRICE = 17;
+const BASE_PRICE = 47;
+
 export default function CheckoutClient() {
   const [clientSecret, setClientSecret] = useState('');
+  const [paymentIntentId, setPaymentIntentId] = useState('');
   const [visible, setVisible] = useState(false);
   const [email, setEmail] = useState('');
+  const [bumpSelected, setBumpSelected] = useState(false);
   const [currency, setCurrency] = useState('usd');
   const [expressError, setExpressError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const fetched = useRef(false);
+  const firstUpdate = useRef(true);
+
+  const total = BASE_PRICE + (bumpSelected ? BUMP_PRICE : 0);
+  const symbol = currency === 'eur' ? '€' : '$';
+  const code = currency === 'eur' ? 'EUR' : 'USD';
+  const fmt = (n: number) => `${symbol}${n.toFixed(2)}`;
+  const priceLabel = fmt(BASE_PRICE);
+  const totalFormatted = fmt(total);
 
   useEffect(() => {
     if (fetched.current) return;
@@ -36,6 +49,7 @@ export default function CheckoutClient() {
       .then((res) => res.json())
       .then((data) => {
         setClientSecret(data.clientSecret);
+        setPaymentIntentId(data.paymentIntentId ?? '');
         setCurrency(data.currency ?? 'usd');
         const elapsed = Date.now() - mountTime;
         const remaining = Math.max(2000 - elapsed, 0);
@@ -43,9 +57,37 @@ export default function CheckoutClient() {
       });
   }, []);
 
-  const symbol = currency === 'eur' ? '€' : '$';
-  const code = currency === 'eur' ? 'EUR' : 'USD';
-  const priceLabel = `${symbol}47.00`;
+  // Re-sync the PaymentIntent's amount + metadata on the server whenever the
+  // bump checkbox toggles so Express Checkout and the final charge see the
+  // right total. Skip the very first run (PI is created at $47 with no bump).
+  useEffect(() => {
+    if (!paymentIntentId) return;
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetch('/api/update-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ paymentIntentId, includeBump: bumpSelected }),
+    }).catch((err) =>
+      console.error('Failed to update PaymentIntent for bump toggle:', err)
+    );
+  }, [paymentIntentId, bumpSelected]);
+
+  // Force the PaymentIntent amount/metadata to match the bump state right before any confirm.
+  const ensurePIAmountSynced = async () => {
+    if (!paymentIntentId) return;
+    try {
+      await fetch('/api/update-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentIntentId, includeBump: bumpSelected }),
+      });
+    } catch (err) {
+      console.error('ensurePIAmountSynced failed:', err);
+    }
+  };
 
   useEffect(() => {
     // Apple touch devices (iPhone/iPad — incl. tablet/desktop view, which masquerades as
@@ -277,6 +319,99 @@ export default function CheckoutClient() {
           margin: 24px 0;
         }
 
+        .order-bump {
+          display: grid;
+          grid-template-columns: auto auto 1fr;
+          grid-template-areas:
+            "check image headline"
+            "check image sub";
+          column-gap: 14px;
+          row-gap: 4px;
+          padding: 16px;
+          border: 2px dashed #d4a72c;
+          background: #fffbeb;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+          align-items: start;
+        }
+
+        .order-bump:hover {
+          background: #fef3c7;
+        }
+
+        .order-bump.is-selected {
+          background: #fef3c7;
+          border-color: #b97c0e;
+          box-shadow: 0 0 0 3px rgba(217,167,44,0.25);
+        }
+
+        .order-bump input[type="checkbox"] {
+          grid-area: check;
+          width: 20px;
+          height: 20px;
+          margin-top: 2px;
+          accent-color: #b97c0e;
+          cursor: pointer;
+        }
+
+        .order-bump .bump-image {
+          grid-area: image;
+          width: 84px;
+          height: 84px;
+          object-fit: cover;
+          border-radius: 6px;
+          background: #ffffff;
+          border: 1px solid rgba(0,0,0,0.06);
+          align-self: center;
+        }
+
+        .order-bump .bump-headline {
+          grid-area: headline;
+          font-size: 15px;
+          font-weight: 600;
+          color: #0A2540;
+          line-height: 1.4;
+        }
+
+        .order-bump .bump-yes {
+          color: #b97c0e;
+          font-weight: 700;
+        }
+
+        .order-bump .bump-sub {
+          grid-area: sub;
+          font-size: 13px;
+          color: #6b7c93;
+          line-height: 1.5;
+          margin-top: 2px;
+        }
+
+        @media (max-width: 768px) {
+          .order-bump {
+            grid-template-columns: auto 1fr auto;
+            grid-template-areas:
+              "check headline image"
+              "sub   sub      sub";
+            row-gap: 10px;
+          }
+          .order-bump .bump-image {
+            width: 84px;
+            height: 84px;
+            justify-self: end;
+            align-self: center;
+          }
+          .order-bump .bump-sub {
+            margin-top: 0;
+          }
+        }
+
+        .bump-line-item .item-name,
+        .bump-line-item .item-price {
+          color: #e8d5a0 !important;
+          font-weight: 600 !important;
+        }
+
         .payment-methods {
           display: flex;
           gap: 0;
@@ -477,9 +612,18 @@ export default function CheckoutClient() {
               <span className="item-price">FREE</span>
             </div>
 
+            {bumpSelected && (
+              <div className="line-item bump-line-item">
+                <span className="item-name">
+                  Sumi-e Practice Pack (150 printable sheets)
+                </span>
+                <span className="item-price">{fmt(BUMP_PRICE)}</span>
+              </div>
+            )}
+
             <div className="total-row">
               <span className="total-label">Total due today</span>
-              <span className="total-amount">{priceLabel}</span>
+              <span className="total-amount">{totalFormatted}</span>
             </div>
 
           </div>
@@ -494,6 +638,28 @@ export default function CheckoutClient() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              <div className="form-divider" />
+
+              <label className={`order-bump ${bumpSelected ? 'is-selected' : ''}`}>
+                <input
+                  type="checkbox"
+                  checked={bumpSelected}
+                  onChange={(e) => setBumpSelected(e.target.checked)}
+                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/sumie-sheets.webp"
+                  alt=""
+                  className="bump-image"
+                />
+                <div className="bump-headline">
+                  <span className="bump-yes">YES!</span> Add the Sumi-e Practice Pack: 150 printable trace-and-paint sheets for just {symbol}17
+                </div>
+                <div className="bump-sub">
+                  A one-time upgrade. Lifetime access to 150 ready-to-trace practice sheets alongside your masterclass.
+                </div>
+              </label>
+
               <div className="form-divider" />
 
               <div className="section-title">Express checkout</div>
@@ -517,6 +683,7 @@ export default function CheckoutClient() {
                           <WalletExpress
                             emailValid={emailValid}
                             onEmailError={showExpressEmailError}
+                            ensurePIAmountSynced={ensurePIAmountSynced}
                             onError={setExpressError}
                           />
                         </Elements>
@@ -527,6 +694,7 @@ export default function CheckoutClient() {
                               email={email}
                               emailValid={emailValid}
                               clientSecret={clientSecret}
+                              ensurePIAmountSynced={ensurePIAmountSynced}
                               onEmailError={showExpressEmailError}
                               onError={setExpressError}
                             />
@@ -542,7 +710,8 @@ export default function CheckoutClient() {
                             email={email}
                             emailValid={emailValid}
                             clientSecret={clientSecret}
-                            totalLabel={priceLabel}
+                            ensurePIAmountSynced={ensurePIAmountSynced}
+                            totalLabel={totalFormatted}
                           />
                         </Elements>
                       </>
@@ -555,6 +724,7 @@ export default function CheckoutClient() {
                           <WalletExpress
                             emailValid={emailValid}
                             onEmailError={showExpressEmailError}
+                            ensurePIAmountSynced={ensurePIAmountSynced}
                             onError={setExpressError}
                           />
                         </Elements>
@@ -564,6 +734,7 @@ export default function CheckoutClient() {
                             <PayPalExpress
                               emailValid={emailValid}
                               onEmailError={showExpressEmailError}
+                              ensurePIAmountSynced={ensurePIAmountSynced}
                               onError={setExpressError}
                             />
                           </div>
@@ -577,7 +748,8 @@ export default function CheckoutClient() {
                           <CardForm
                             email={email}
                             emailValid={emailValid}
-                            totalLabel={priceLabel}
+                            ensurePIAmountSynced={ensurePIAmountSynced}
+                            totalLabel={totalFormatted}
                           />
                         </Elements>
                       </>

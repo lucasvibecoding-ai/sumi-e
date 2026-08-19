@@ -6,9 +6,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-02-25.clover',
 });
 
+// Cents to add to the base price when the buyer accepts the order bump.
+const BUMP_AMOUNT_CENTS = 1700;
+
 export async function POST(request: Request) {
   try {
-    await request.json().catch(() => ({}));
+    const body = (await request.json().catch(() => ({}))) as {
+      includeBump?: boolean;
+    };
+    const includeBump = body.includeBump === true;
+
     const productId = process.env.STRIPE_PRODUCT_ID!;
 
     const product = await stripe.products.retrieve(
@@ -16,12 +23,17 @@ export async function POST(request: Request) {
       { expand: ['default_price'] }
     );
     const price = product.default_price as Stripe.Price;
+    const amount = (price.unit_amount ?? 0) + (includeBump ? BUMP_AMOUNT_CENTS : 0);
 
-    // Buyer location for the VAT counter (additive metadata; absent in local dev).
     const metadata: Record<string, string> = {
       product_id: product.id,
       product_name: product.name,
     };
+    if (includeBump) {
+      metadata.includes_addon = 'sumie-pack';
+    }
+    // Buyer location for the VAT counter (additive metadata; absent in local dev).
+    // update-payment-intent spreads existing metadata, so these survive an order-bump toggle.
     const ipCountry = request.headers.get('x-vercel-ip-country');
     const ipRegion = request.headers.get('x-vercel-ip-country-region');
     const ipCityRaw = request.headers.get('x-vercel-ip-city');
@@ -38,7 +50,7 @@ export async function POST(request: Request) {
     const currency = currencyForCountry(ipCountry);
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: price.unit_amount!,
+      amount,
       currency,
       automatic_payment_methods: {
         enabled: true,
@@ -55,7 +67,11 @@ export async function POST(request: Request) {
       metadata,
     });
 
-    return NextResponse.json({ clientSecret: paymentIntent.client_secret, currency });
+    return NextResponse.json({
+      clientSecret: paymentIntent.client_secret,
+      paymentIntentId: paymentIntent.id,
+      currency,
+    });
   } catch (error) {
     console.error('Payment intent error:', error);
     return NextResponse.json(

@@ -28,6 +28,7 @@ const resend = new Resend(process.env.RESEND_API_KEY!);
 // email. Idempotent (also called by the /success page and the PayPal capture route).
 async function grantCourseAccess(
   email: string | null,
+  addonSlug: string | null,
 ): Promise<{ setupUrl?: string; loginUrl?: string }> {
   if (!process.env.COURSE_PLATFORM_URL || !process.env.COURSE_PLATFORM_SECRET || !email) {
     return {};
@@ -47,6 +48,7 @@ async function grantCourseAccess(
       body: JSON.stringify({
         email,
         courseSlug: 'sumie-masterclass',
+        ...(addonSlug ? { addonSlug } : {}),
       }),
     });
     if (grantRes.ok) {
@@ -148,11 +150,16 @@ export async function POST(request: Request) {
         const toEmail = customerEmail || 'hello@sumieclass.com';
         const firstName = customerName?.split(' ')[0];
 
+        const addonSlug =
+          typeof paymentIntent.metadata?.includes_addon === 'string'
+            ? paymentIntent.metadata.includes_addon
+            : null;
+
         // Grant access and create the fiscal invoice in parallel. The invoice call retries
         // until it succeeds or the deadline, so the email waits for the invoice (up to
         // ~30s) but never longer, and never goes out before the invoice attempt resolves.
         const [access, invoice] = await Promise.all([
-          grantCourseAccess(customerEmail),
+          grantCourseAccess(customerEmail, addonSlug),
           createFiscalInvoiceWithin(
             {
               apiTransactionId: paymentIntent.id,
@@ -162,6 +169,7 @@ export async function POST(request: Request) {
               amount: paymentIntent.amount / 100,
               currency: (paymentIntent.currency || 'eur').toUpperCase(),
               methodOfPayment: 'Stripe',
+              includeAddon: !!addonSlug,
             },
             INVOICE_DEADLINE_MS,
           ).catch((err) => {
@@ -201,6 +209,7 @@ export async function POST(request: Request) {
             provider: 'Stripe',
             email: customerEmail,
             firstName,
+            includeAddon: !!addonSlug,
           });
         }
 
