@@ -15,6 +15,9 @@ const stripePromise = loadStripe(
 
 const BUMP_PRICE = 17;
 const BASE_PRICE = 47;
+// Launch switch for the order bump. Flip to true (with the platform addon
+// published) to put the Practice Pack offer live on checkout.
+const SHOW_BUMP = false;
 
 export default function CheckoutClient() {
   const [clientSecret, setClientSecret] = useState('');
@@ -644,28 +647,32 @@ export default function CheckoutClient() {
               />
               <div className="form-divider" />
 
-              <label className={`order-bump ${bumpSelected ? 'is-selected' : ''}`}>
-                <input
-                  type="checkbox"
-                  checked={bumpSelected}
-                  onChange={(e) => setBumpSelected(e.target.checked)}
-                />
-                <div className="bump-headline">
-                  <span>Add the Sumi-e Practice Pack</span>
-                  <span className="bump-price">+{symbol}17</span>
-                </div>
-                <div className="bump-sub">
-                  150 printable trace-and-paint sheets. Lifetime access.
-                </div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/sumie-sheets.webp"
-                  alt=""
-                  className="bump-image"
-                />
-              </label>
+              {SHOW_BUMP && (
+                <>
+                  <label className={`order-bump ${bumpSelected ? 'is-selected' : ''}`}>
+                    <input
+                      type="checkbox"
+                      checked={bumpSelected}
+                      onChange={(e) => setBumpSelected(e.target.checked)}
+                    />
+                    <div className="bump-headline">
+                      <span>Add the Sumi-e Practice Pack</span>
+                      <span className="bump-price">+{symbol}17</span>
+                    </div>
+                    <div className="bump-sub">
+                      150 printable trace-and-paint sheets. Lifetime access.
+                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/sumie-sheets.webp"
+                      alt=""
+                      className="bump-image"
+                    />
+                  </label>
 
-              <div className="form-divider" />
+                  <div className="form-divider" />
+                </>
+              )}
 
               <div className="section-title">Express checkout</div>
 
