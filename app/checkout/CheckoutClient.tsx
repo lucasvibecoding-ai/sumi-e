@@ -17,7 +17,7 @@ const BUMP_PRICE = 17;
 const BASE_PRICE = 47;
 // Launch switch for the order bump. Flip to true (with the platform addon
 // published) to put the Practice Pack offer live on checkout.
-const SHOW_BUMP = false;
+const SHOW_BUMP = true;
 
 export default function CheckoutClient() {
   const [clientSecret, setClientSecret] = useState('');
