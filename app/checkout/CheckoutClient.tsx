@@ -321,10 +321,11 @@ export default function CheckoutClient() {
 
         .order-bump {
           display: grid;
-          grid-template-columns: auto auto 1fr;
+          grid-template-columns: auto 1fr;
           grid-template-areas:
-            "check image headline"
-            "check image sub";
+            "check headline"
+            "check sub"
+            "image image";
           column-gap: 14px;
           row-gap: 4px;
           padding: 16px;
@@ -357,13 +358,13 @@ export default function CheckoutClient() {
 
         .order-bump .bump-image {
           grid-area: image;
-          width: 84px;
-          height: 84px;
+          width: 100%;
+          height: 200px;
           object-fit: cover;
           border-radius: 6px;
           background: #ffffff;
           border: 1px solid rgba(0,0,0,0.06);
-          align-self: center;
+          margin-top: 10px;
         }
 
         .order-bump .bump-headline {
@@ -400,6 +401,7 @@ export default function CheckoutClient() {
             height: 84px;
             justify-self: end;
             align-self: center;
+            margin-top: 0;
           }
           .order-bump .bump-sub {
             margin-top: 0;
