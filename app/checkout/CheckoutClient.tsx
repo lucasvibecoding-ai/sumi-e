@@ -369,15 +369,24 @@ export default function CheckoutClient() {
 
         .order-bump .bump-headline {
           grid-area: headline;
+          display: flex;
+          align-items: center;
+          gap: 8px;
           font-size: 15px;
           font-weight: 600;
           color: #0A2540;
           line-height: 1.4;
         }
 
-        .order-bump .bump-yes {
-          color: #b97c0e;
+        .order-bump .bump-price {
+          margin-left: auto;
+          background: #b97c0e;
+          color: #ffffff;
+          font-size: 13px;
           font-weight: 700;
+          padding: 2px 10px;
+          border-radius: 999px;
+          white-space: nowrap;
         }
 
         .order-bump .bump-sub {
@@ -390,21 +399,11 @@ export default function CheckoutClient() {
 
         @media (max-width: 768px) {
           .order-bump {
-            grid-template-columns: auto 1fr auto;
-            grid-template-areas:
-              "check headline image"
-              "sub   sub      sub";
-            row-gap: 10px;
+            padding: 14px;
           }
           .order-bump .bump-image {
-            width: 84px;
-            height: 84px;
-            justify-self: end;
-            align-self: center;
-            margin-top: 0;
-          }
-          .order-bump .bump-sub {
-            margin-top: 0;
+            height: 150px;
+            margin-top: 8px;
           }
         }
 
@@ -648,18 +647,19 @@ export default function CheckoutClient() {
                   checked={bumpSelected}
                   onChange={(e) => setBumpSelected(e.target.checked)}
                 />
+                <div className="bump-headline">
+                  <span>Add the Sumi-e Practice Pack</span>
+                  <span className="bump-price">+{symbol}17</span>
+                </div>
+                <div className="bump-sub">
+                  150 printable trace-and-paint sheets. Lifetime access.
+                </div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/sumie-sheets.webp"
                   alt=""
                   className="bump-image"
                 />
-                <div className="bump-headline">
-                  <span className="bump-yes">YES!</span> Add the Sumi-e Practice Pack: 150 printable trace-and-paint sheets for just {symbol}17
-                </div>
-                <div className="bump-sub">
-                  A one-time upgrade. Lifetime access to 150 ready-to-trace practice sheets alongside your masterclass.
-                </div>
               </label>
 
               <div className="form-divider" />
