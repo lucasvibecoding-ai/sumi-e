@@ -660,7 +660,7 @@ export default function CheckoutClient() {
                       <span className="bump-price">+{symbol}17</span>
                     </div>
                     <div className="bump-sub">
-                      150 printable trace-and-paint sheets. Lifetime access.
+                      150 subjects to practice on: bamboo, koi, cranes, mountains and more. One sheet a day builds real skill. Lifetime access.
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
