@@ -657,7 +657,7 @@ export default function CheckoutClient() {
                       onChange={(e) => setBumpSelected(e.target.checked)}
                     />
                     <div className="bump-headline">
-                      <span>Add the Sumi-e Practice Pack (150 sheets)</span>
+                      <span>Add the 150 Sumi-e Practice Pack</span>
                       <span className="bump-price">+{symbol}17</span>
                     </div>
                     <div className="bump-sub">
