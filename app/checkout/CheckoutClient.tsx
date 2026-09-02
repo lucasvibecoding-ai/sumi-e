@@ -21,6 +21,7 @@ const SHOW_BUMP = true;
 
 export default function CheckoutClient() {
   const [clientSecret, setClientSecret] = useState('');
+  const [paypalDown, setPaypalDown] = useState(false);
   const [paymentIntentId, setPaymentIntentId] = useState('');
   const [visible, setVisible] = useState(false);
   const [email, setEmail] = useState('');
@@ -54,6 +55,7 @@ export default function CheckoutClient() {
         setClientSecret(data.clientSecret);
         setPaymentIntentId(data.paymentIntentId ?? '');
         setCurrency(data.currency ?? 'usd');
+        setPaypalDown(data.paypalDown === true);
         const elapsed = Date.now() - mountTime;
         const remaining = Math.max(2000 - elapsed, 0);
         setTimeout(() => setVisible(true), remaining);
@@ -741,6 +743,7 @@ export default function CheckoutClient() {
                         </Elements>
 
                         <Elements stripe={stripePromise} options={{ clientSecret, appearance }}>
+                          {!paypalDown && (
                           <div style={{ marginTop: 12 }}>
                             <PayPalRedirectButton
                               email={email}
@@ -751,6 +754,7 @@ export default function CheckoutClient() {
                               onError={setExpressError}
                             />
                           </div>
+                          )}
 
                           <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '24px 0' }}>
                             <div style={{ flex: 1, height: 1, background: '#e5e7eb' }} />
@@ -782,6 +786,7 @@ export default function CheckoutClient() {
                         </Elements>
 
                         <Elements stripe={stripePromise} options={{ clientSecret, appearance }}>
+                          {!paypalDown && (
                           <div style={{ marginTop: 12 }}>
                             <PayPalExpress
                               emailValid={emailValid}
@@ -790,6 +795,7 @@ export default function CheckoutClient() {
                               onError={setExpressError}
                             />
                           </div>
+                          )}
 
                           <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '24px 0' }}>
                             <div style={{ flex: 1, height: 1, background: '#e5e7eb' }} />
