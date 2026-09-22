@@ -6,6 +6,7 @@ import { createHash } from 'crypto';
 import OrderConfirmation from '../../../emails/OrderConfirmation';
 import { recordPurchase } from '../../../lib/airtable';
 import { createFiscalInvoiceWithin } from '../../../lib/eracuni';
+import { resolveBuyerCountry } from '../../../lib/vat-country';
 
 // Allow the background fulfillment (below) to run up to 60s — the Vercel Hobby cap.
 export const maxDuration = 60;
@@ -181,6 +182,17 @@ export async function POST(request: Request) {
         // Grant access and create the fiscal invoice in parallel. The invoice call retries
         // until it succeeds or the deadline, so the email waits for the invoice (up to
         // ~30s) but never longer, and never goes out before the invoice attempt resolves.
+        // Where the buyer consumed the course, decided by the same signals (and the same
+        // rules) the VAT counter uses below, so the invoice and the counter never disagree.
+        const buyerCountry = resolveBuyerCountry({
+          ipCountry:
+            typeof paymentIntent.metadata?.ip_country === 'string'
+              ? paymentIntent.metadata.ip_country
+              : null,
+          billingCountry,
+          cardCountry,
+        });
+
         const [access, secondaryAccess, invoice] = await Promise.all([
           grantCourseAccess(primaryEmail, addonSlug),
           secondaryEmail
@@ -195,6 +207,7 @@ export async function POST(request: Request) {
               amount: paymentIntent.amount / 100,
               currency: (paymentIntent.currency || 'eur').toUpperCase(),
               methodOfPayment: 'Stripe',
+              buyerCountry,
               includeAddon: !!addonSlug,
             },
             INVOICE_DEADLINE_MS,
