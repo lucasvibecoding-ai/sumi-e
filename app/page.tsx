@@ -5,6 +5,7 @@ import CountdownBar from "./CountdownBar";
 import FaqAccordion from "./FaqAccordion";
 import { headers } from "next/headers";
 import { currencyForCountry, currencySymbol } from "../lib/pricing";
+import ReviewsSection, { HappyCustomers } from "./ReviewsSection";
 
 export const metadata: Metadata = {
   title: "Sumi-e: Learn The 700-Year Old Japanese Art Of Ink Painting",
@@ -244,7 +245,7 @@ export default async function Home() {
 
           {/* HERO */}
           <section style={{ paddingTop: 64, paddingBottom: 48, textAlign: 'center' }}>
-            <p className="no-exp" style={{ fontWeight: 700, textTransform: 'uppercase', color: 'var(--ink-muted)' }}>For The First Time Online</p>
+            <HappyCustomers />
             <h1><span style={{ background: 'linear-gradient(135deg, #2d4a8f, #4a6db5)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 4px rgba(45,74,143,0.2))' }}>Sumi-e:</span> Learn The 700-Year Old Japanese Art Of Ink Painting</h1>
             <p className="hero-sub" style={{ color: 'var(--ink-muted)', marginTop: 8, fontStyle: 'italic' }}>Your first masterpiece in 3 hours even if you&apos;re a complete beginner.</p>
 
@@ -512,9 +513,8 @@ export default async function Home() {
               <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>You&apos;ve seen what&apos;s inside. Five modules. A complete system for learning, creating, and mastering sumi-e at home.</p>
               <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>The full price for this course is <strong><s>{sym}97</s></strong>.</p>
               <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>You&apos;re not going to pay that today. And the reason is simple.</p>
-              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>This is the first time I&apos;ve offered this course to the public. I want <strong>50 people</strong> to go through it. I want to read your emails, see your paintings, find out where you get stuck and where you surprise yourself.</p>
-              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>That feedback is worth more to me right now than charging full price. Honestly, I also need to find out if I can handle 50 support inboxes without accidentally spilling ink on my laptop.</p>
-              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>So for this first group, the price is <strong>dramatically lower</strong>. Once those 50 spots fill, this page comes down and the full price goes live.</p>
+              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>More than <strong>500 students</strong> have already learned to paint with this course. Reading their emails and seeing their paintings is still my favorite part of the week, and I want more people to get there.</p>
+              <p style={{ maxWidth: 720, textAlign: 'left', fontSize: 24, margin: '0 auto 20px' }}>So for now, the price is <strong>dramatically lower</strong>. You get the full course, every bonus, and lifetime access for less than half the full price.</p>
             </div>
             <div className="checkout-box" style={{ maxWidth: 520, margin: '0 auto', padding: '40px 44px', borderRadius: 14, border: '2px solid rgba(45,74,143,0.25)', background: '#ffffff', boxShadow: '0 4px 24px rgba(0,0,0,0.06)', textAlign: 'center' }}>
               <div className="price-old">Normally {sym}97</div>
@@ -538,6 +538,9 @@ export default async function Home() {
               <p className="ps-note">P.S. If the next page doesn&apos;t load... I&apos;m sorry, but the deal has ended!</p>
             </div>
           </section>
+
+          {/* REVIEWS */}
+          <ReviewsSection />
 
           {/* GUARANTEE */}
           <section className="guarantee-section">
