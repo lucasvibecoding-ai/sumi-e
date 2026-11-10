@@ -178,7 +178,7 @@ export default function CheckoutClient() {
 
         .checkout-container {
           width: 100%;
-          max-width: 960px;
+          max-width: 1040px;
           display: flex;
           border-radius: 12px;
           overflow: hidden;
@@ -247,6 +247,8 @@ export default function CheckoutClient() {
           font-weight: 600;
           white-space: nowrap;
         }
+
+        .checkout-summary .social-proof svg { flex-shrink: 0; }
 
         .checkout-summary .product-price .currency {
           font-size: 20px;
@@ -375,11 +377,11 @@ export default function CheckoutClient() {
 
         .order-bump {
           display: grid;
-          grid-template-columns: auto 1fr;
+          grid-template-columns: auto auto 1fr;
           grid-template-areas:
-            "check headline"
-            "check sub"
-            "image image";
+            "check image headline"
+            "check image sub";
+          grid-template-rows: auto 1fr;
           column-gap: 14px;
           row-gap: 4px;
           padding: 16px;
@@ -412,57 +414,26 @@ export default function CheckoutClient() {
 
         .order-bump .bump-image {
           grid-area: image;
-          width: 82%;
-          max-width: 230px;
-          aspect-ratio: 4 / 3;
-          height: auto;
+          width: 116px;
+          height: 116px;
           object-fit: cover;
-          justify-self: center;
           border-radius: 6px;
           background: #ffffff;
           border: 1px solid rgba(0,0,0,0.06);
-          margin-top: 10px;
+          align-self: center;
         }
 
         .order-bump .bump-headline {
           grid-area: headline;
-          display: flex;
-          align-items: center;
-          gap: 8px;
           font-size: 15px;
           font-weight: 600;
-          color: #0A2540;
+          color: #1a2e1a;
           line-height: 1.4;
         }
 
         .order-bump .bump-yes {
-          color: #e8442e;
+          color: #b97c0e;
           font-weight: 700;
-          white-space: nowrap;
-        }
-
-        .order-bump .bump-pricing {
-          margin-left: auto;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-
-        .order-bump .bump-anchor {
-          color: #9aa1ab;
-          text-decoration: line-through;
-          font-size: 13px;
-          font-weight: 600;
-        }
-
-        .order-bump .bump-price {
-          background: #b97c0e;
-          color: #ffffff;
-          font-size: 13px;
-          font-weight: 700;
-          padding: 2px 10px;
-          border-radius: 999px;
-          white-space: nowrap;
         }
 
         .order-bump .bump-sub {
@@ -475,12 +446,21 @@ export default function CheckoutClient() {
 
         @media (max-width: 768px) {
           .order-bump {
-            padding: 14px;
+            grid-template-columns: auto 1fr auto;
+            grid-template-areas:
+              "check headline image"
+              "sub   sub      sub";
+            grid-template-rows: auto auto;
+            row-gap: 10px;
           }
           .order-bump .bump-image {
-            width: 74%;
-            max-width: none;
-            margin-top: 8px;
+            width: 100px;
+            height: 100px;
+            justify-self: end;
+            align-self: center;
+          }
+          .order-bump .bump-sub {
+            margin-top: 0;
           }
         }
 
@@ -515,9 +495,8 @@ export default function CheckoutClient() {
           grid-area: image;
           align-self: center;
           justify-self: center;
-          width: 84px;
+          width: 116px;
           padding: 10px 0;
-          margin-top: 10px;
           border-radius: 6px;
           background: #16a34a;
           color: #ffffff;
@@ -525,6 +504,10 @@ export default function CheckoutClient() {
           font-weight: 800;
           text-align: center;
           line-height: 1.2;
+        }
+
+        @media (max-width: 768px) {
+          .order-bump .bundle-badge { width: 100px; }
         }
 
         .bundle-line-item .item-name,
@@ -917,8 +900,7 @@ export default function CheckoutClient() {
                       onChange={(e) => setCourseSelected(e.target.checked)}
                     />
                     <div className="bump-headline">
-                      <span className="bump-yes">&#9654; YES!</span>
-                      <span>Add the {UPSELL_COURSE_NAME} for just {fmt(UPSELL_PRICE)} <span className="bump-was">{fmt(BASE_PRICE)}</span></span>
+                      <span className="bump-yes">YES!</span> Add the {UPSELL_COURSE_NAME} for just {fmt(UPSELL_PRICE)} <span className="bump-was">{fmt(BASE_PRICE)}</span>
                     </div>
                     <div className="bump-sub">
                       A second full course: 5 modules of Chinese ink painting, from bamboo and pandas to a dragon and misty mountains. Lifetime access.
@@ -940,12 +922,7 @@ export default function CheckoutClient() {
                       onChange={(e) => setBumpSelected(e.target.checked)}
                     />
                     <div className="bump-headline">
-                      <span className="bump-yes">&#9654; YES!</span>
-                      <span>Add the 150 Sumi-e Practice Pack</span>
-                      <span className="bump-pricing">
-                        <span className="bump-anchor">{symbol}57</span>
-                        <span className="bump-price">{fmt(BUMP_PRICE)}</span>
-                      </span>
+                      <span className="bump-yes">YES!</span> Add the 150 Sumi-e Practice Pack for just {fmt(BUMP_PRICE)}
                     </div>
                     <div className="bump-sub">
                       150 subjects to practice on: bamboo, koi, cranes, mountains and more. One sheet a day builds real skill. Lifetime access.
@@ -972,8 +949,7 @@ export default function CheckoutClient() {
                       }}
                     />
                     <div className="bump-headline">
-                      <span className="bump-yes">&#9654; BEST VALUE!</span>
-                      <span>Get both for just {fmt(BUNDLE_PRICE)} <span className="bump-was">{fmt(BUMP_PRICE + UPSELL_PRICE)}</span> (save {bundlePercent}%)</span>
+                      <span className="bump-yes">BEST VALUE!</span> Get both for just {fmt(BUNDLE_PRICE)} <span className="bump-was">{fmt(BUMP_PRICE + UPSELL_PRICE)}</span> (save {bundlePercent}%)
                     </div>
                     <div className="bump-sub">
                       The {UPSELL_COURSE_NAME} and the Sumi-e Practice Pack together.
