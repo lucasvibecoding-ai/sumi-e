@@ -12,12 +12,17 @@ import PayPalForm from './PayPalForm';
 // Direct PayPal switch (lib/paypal-direct.ts); read here so the server-only PayPal code stays out of the browser.
 const PAYPAL_DIRECT = process.env.NEXT_PUBLIC_PAYPAL_DIRECT === '1';
 import MobileCardForm from './MobileCardForm';
+import { UPSELL_COURSE_NAME } from '../../lib/pricing';
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
 
-const BUMP_PRICE = 17;
+const BUMP_PRICE = 19.99;
 const BASE_PRICE = 49.99;
+// Second course offered at checkout (owner 2026-11-10): $29.99 on its own, the pack $19.99, both
+// together $34.99. The server charges the same numbers (lib/pricing.ts extrasCents).
+const UPSELL_PRICE = 29.99;
+const BUNDLE_PRICE = 34.99;
 // Launch switch for the order bump. Flip to true (with the platform addon
 // published) to put the Practice Pack offer live on checkout.
 const SHOW_BUMP = true;
@@ -29,13 +34,20 @@ export default function CheckoutClient() {
   const [visible, setVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [bumpSelected, setBumpSelected] = useState(false);
+  const [courseSelected, setCourseSelected] = useState(false);
   const [currency, setCurrency] = useState('usd');
   const [expressError, setExpressError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const fetched = useRef(false);
   const firstUpdate = useRef(true);
 
-  const total = BASE_PRICE + (bumpSelected ? BUMP_PRICE : 0);
+  const bundle = bumpSelected && courseSelected;
+  const bundleSaving = BUMP_PRICE + UPSELL_PRICE - BUNDLE_PRICE;
+  const bundlePercent = Math.round((bundleSaving / (BUMP_PRICE + UPSELL_PRICE)) * 100);
+  const extras = bundle
+    ? BUNDLE_PRICE
+    : (bumpSelected ? BUMP_PRICE : 0) + (courseSelected ? UPSELL_PRICE : 0);
+  const total = BASE_PRICE + extras;
   const symbol = currency === 'eur' ? '€' : '$';
   const code = currency === 'eur' ? 'EUR' : 'USD';
   const fmt = (n: number) => `${symbol}${n.toFixed(2)}`;
@@ -77,11 +89,11 @@ export default function CheckoutClient() {
     fetch('/api/update-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ paymentIntentId, includeBump: bumpSelected }),
+      body: JSON.stringify({ paymentIntentId, includeBump: bumpSelected, includeCourse: courseSelected }),
     }).catch((err) =>
       console.error('Failed to update PaymentIntent for bump toggle:', err)
     );
-  }, [paymentIntentId, bumpSelected]);
+  }, [paymentIntentId, bumpSelected, courseSelected]);
 
   // Force the PaymentIntent amount/metadata to match the bump state right before any confirm.
   const ensurePIAmountSynced = async () => {
@@ -90,7 +102,7 @@ export default function CheckoutClient() {
       await fetch('/api/update-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paymentIntentId, includeBump: bumpSelected }),
+        body: JSON.stringify({ paymentIntentId, includeBump: bumpSelected, includeCourse: courseSelected }),
       });
     } catch (err) {
       console.error('ensurePIAmountSynced failed:', err);
@@ -454,6 +466,55 @@ export default function CheckoutClient() {
           }
         }
 
+        .order-bump .bump-was {
+          color: #9a9689;
+          font-weight: 400;
+          text-decoration: line-through;
+          margin-left: 4px;
+        }
+
+        .order-bump.bundle-bump {
+          border-color: #16a34a;
+          background: #f0fdf4;
+        }
+
+        .order-bump.bundle-bump:hover,
+        .order-bump.bundle-bump.is-selected {
+          background: #dcfce7;
+          border-color: #15803d;
+          box-shadow: 0 0 0 3px rgba(22,163,74,0.2);
+        }
+
+        .order-bump.bundle-bump input[type="checkbox"] {
+          accent-color: #15803d;
+        }
+
+        .order-bump.bundle-bump .bump-yes {
+          color: #15803d;
+        }
+
+        .order-bump .bundle-badge {
+          grid-area: image;
+          align-self: center;
+          justify-self: center;
+          width: 84px;
+          padding: 10px 0;
+          margin-top: 10px;
+          border-radius: 6px;
+          background: #16a34a;
+          color: #ffffff;
+          font-size: 15px;
+          font-weight: 800;
+          text-align: center;
+          line-height: 1.2;
+        }
+
+        .bundle-line-item .item-name,
+        .bundle-line-item .item-price {
+          color: #86efac !important;
+          font-weight: 600 !important;
+        }
+
         .bump-line-item .item-name,
         .bump-line-item .item-price {
           color: #e8d5a0 !important;
@@ -756,12 +817,26 @@ export default function CheckoutClient() {
               <span className="item-price">FREE</span>
             </div>
 
+            {courseSelected && (
+              <div className="line-item bump-line-item">
+                <span className="item-name">{UPSELL_COURSE_NAME}</span>
+                <span className="item-price">{fmt(UPSELL_PRICE)}</span>
+              </div>
+            )}
+
             {bumpSelected && (
               <div className="line-item bump-line-item">
                 <span className="item-name">
                   Sumi-e Practice Pack (150 printable sheets)
                 </span>
                 <span className="item-price">{fmt(BUMP_PRICE)}</span>
+              </div>
+            )}
+
+            {bundle && (
+              <div className="line-item bundle-line-item">
+                <span className="item-name">Bundle discount</span>
+                <span className="item-price">&minus;{fmt(bundleSaving)}</span>
               </div>
             )}
 
@@ -805,6 +880,29 @@ export default function CheckoutClient() {
 
               {SHOW_BUMP && (
                 <>
+                  <label className={`order-bump ${courseSelected ? 'is-selected' : ''}`}>
+                    <input
+                      type="checkbox"
+                      checked={courseSelected}
+                      onChange={(e) => setCourseSelected(e.target.checked)}
+                    />
+                    <div className="bump-headline">
+                      <span className="bump-yes">&#9654; YES!</span>
+                      <span>Add the {UPSELL_COURSE_NAME} for just {fmt(UPSELL_PRICE)} <span className="bump-was">{fmt(BASE_PRICE)}</span></span>
+                    </div>
+                    <div className="bump-sub">
+                      A second full course: 5 modules of Chinese ink painting, from bamboo and pandas to a dragon and misty mountains. Lifetime access.
+                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/upsell-course.jpg"
+                      alt=""
+                      className="bump-image"
+                    />
+                  </label>
+
+                  <div style={{ height: 12 }} />
+
                   <label className={`order-bump ${bumpSelected ? 'is-selected' : ''}`}>
                     <input
                       type="checkbox"
@@ -816,7 +914,7 @@ export default function CheckoutClient() {
                       <span>Add the 150 Sumi-e Practice Pack</span>
                       <span className="bump-pricing">
                         <span className="bump-anchor">{symbol}57</span>
-                        <span className="bump-price">{symbol}17</span>
+                        <span className="bump-price">{fmt(BUMP_PRICE)}</span>
                       </span>
                     </div>
                     <div className="bump-sub">
@@ -828,6 +926,29 @@ export default function CheckoutClient() {
                       alt=""
                       className="bump-image"
                     />
+                  </label>
+
+                  <div style={{ height: 12 }} />
+
+                  {/* Third box = both extras at the bundle price. It is ticked whenever both are, and
+                      ticking it ticks both (unticking clears both). */}
+                  <label className={`order-bump bundle-bump ${bundle ? 'is-selected' : ''}`}>
+                    <input
+                      type="checkbox"
+                      checked={bundle}
+                      onChange={(e) => {
+                        setCourseSelected(e.target.checked);
+                        setBumpSelected(e.target.checked);
+                      }}
+                    />
+                    <div className="bump-headline">
+                      <span className="bump-yes">&#9654; BEST VALUE!</span>
+                      <span>Get both for just {fmt(BUNDLE_PRICE)} <span className="bump-was">{fmt(BUMP_PRICE + UPSELL_PRICE)}</span> (save {bundlePercent}%)</span>
+                    </div>
+                    <div className="bump-sub">
+                      The {UPSELL_COURSE_NAME} and the Sumi-e Practice Pack together.
+                    </div>
+                    <div className="bundle-badge">SAVE {bundlePercent}%</div>
                   </label>
 
                   <div className="form-divider" />
@@ -869,6 +990,7 @@ export default function CheckoutClient() {
                                 emailValid={emailValid}
                                 currency={currency}
                                 includeAddon={bumpSelected}
+                                includeCourse={courseSelected}
                                 onEmailError={showExpressEmailError}
                                 onError={setExpressError}
                               />
@@ -924,6 +1046,7 @@ export default function CheckoutClient() {
                                 emailValid={emailValid}
                                 currency={currency}
                                 includeAddon={bumpSelected}
+                                includeCourse={courseSelected}
                                 onEmailError={showExpressEmailError}
                                 onError={setExpressError}
                               />
