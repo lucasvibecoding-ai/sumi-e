@@ -17,7 +17,7 @@ const stripePromise = loadStripe(
 );
 
 const BUMP_PRICE = 17;
-const BASE_PRICE = 47;
+const BASE_PRICE = 49.99;
 // Launch switch for the order bump. Flip to true (with the platform addon
 // published) to put the Practice Pack offer live on checkout.
 const SHOW_BUMP = true;
@@ -67,7 +67,7 @@ export default function CheckoutClient() {
 
   // Re-sync the PaymentIntent's amount + metadata on the server whenever the
   // bump checkbox toggles so Express Checkout and the final charge see the
-  // right total. Skip the very first run (PI is created at $47 with no bump).
+  // right total. Skip the very first run (PI is created at $49.99 with no bump).
   useEffect(() => {
     if (!paymentIntentId) return;
     if (firstUpdate.current) {
