@@ -35,6 +35,8 @@ export default function CheckoutClient() {
   const [email, setEmail] = useState('');
   const [bumpSelected, setBumpSelected] = useState(false);
   const [courseSelected, setCourseSelected] = useState(false);
+  // Counts server-side amount changes, so the wallet buttons re-read the PaymentIntent.
+  const [piVersion, setPiVersion] = useState(0);
   const [currency, setCurrency] = useState('usd');
   const [expressError, setExpressError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
@@ -90,7 +92,9 @@ export default function CheckoutClient() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ paymentIntentId, includeBump: bumpSelected, includeCourse: courseSelected }),
-    }).catch((err) =>
+    })
+      .then(() => setPiVersion((v) => v + 1))
+      .catch((err) =>
       console.error('Failed to update PaymentIntent for bump toggle:', err)
     );
   }, [paymentIntentId, bumpSelected, courseSelected]);
@@ -974,6 +978,7 @@ export default function CheckoutClient() {
                       <>
                         <Elements stripe={stripePromise} options={{ clientSecret, appearance }}>
                           <WalletExpress
+                            syncVersion={piVersion}
                             emailValid={emailValid}
                             onEmailError={showExpressEmailError}
                             ensurePIAmountSynced={ensurePIAmountSynced}
@@ -1030,6 +1035,7 @@ export default function CheckoutClient() {
                       <>
                         <Elements stripe={stripePromise} options={{ clientSecret, appearance }}>
                           <WalletExpress
+                            syncVersion={piVersion}
                             emailValid={emailValid}
                             onEmailError={showExpressEmailError}
                             ensurePIAmountSynced={ensurePIAmountSynced}
@@ -1054,6 +1060,7 @@ export default function CheckoutClient() {
                           ) : !paypalDown && (
                           <div style={{ marginTop: 12 }}>
                             <PayPalExpress
+                              syncVersion={piVersion}
                               emailValid={emailValid}
                               onEmailError={showExpressEmailError}
                               ensurePIAmountSynced={ensurePIAmountSynced}
